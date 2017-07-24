@@ -28,7 +28,7 @@ Begin by listing wireless interfaces that support monitor mode with:
 airmon-ng
 ```
 
-If you do not see an interface listed than your wireless card does not support monitor mode 😞.
+If you do not see an interface listed then your wireless card does not support monitor mode 😞.
 
 We will assume your wireless interface name is `wlan0` but be sure to use the correct name if it differs from this. Next, we will place the interface into monitor mode:
 
