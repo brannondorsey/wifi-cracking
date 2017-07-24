@@ -101,7 +101,7 @@ The final step is to crack the password using the captured handshake. If you hav
 
 #### Cracking With `naive-hashcat` (recommended)
 
-Before we can crack the password using naive-hashcat, we need to convert our `.cap` file to the equivalent hashcat file format `.hccapx`. You can do this easily by either uploading the `.cap` file to <https://hashcat.net/cap2hccapx/> or using the [`cap2hccapx`](https://github.com/hashcat/hashcat-utils) tool directly from .
+Before we can crack the password using naive-hashcat, we need to convert our `.cap` file to the equivalent hashcat file format `.hccapx`. You can do this easily by either uploading the `.cap` file to <https://hashcat.net/cap2hccapx/> or using the [`cap2hccapx`](https://github.com/hashcat/hashcat-utils) tool directly.
 
 ```bash
 cap2hccapx.bin hackme.cap hackme.hccapx
