@@ -18,7 +18,9 @@ This tutorial assumes that you:
 	- `sudo apt-get install aircrack-ng`
 - Have a wireless card that supports [monitor mode](https://en.wikipedia.org/wiki/Monitor_mode) (I recommend [this one](https://www.amazon.com/s/?ie=UTF8&keywords=tl+wn722n)
 
-## Monitor Mode
+## Cracking a Wi-Fi Network
+
+### Monitor Mode
 
 Begin by listing wireless interfaces that support monitor mode with:
 
@@ -36,7 +38,7 @@ airmon-ng start wlan0
 
 Run `iwconfig`. You should now see a new monitor mode interface listed (likely `mon0` or `wlan0mon`).
 
-## Find your target
+### Find Your Target
 
 Start listening to [802.11 Beacon frames](https://en.wikipedia.org/wiki/Beacon_frame) broadcast by nearby wireless routers using your monitor interface:
 
@@ -66,7 +68,7 @@ CH 13 ][ Elapsed: 52 s ][ 2017-07-23 15:49
 
 For the purposes of this demo, we will choose to crack the password of my network, "hackme". Remember the BSSID MAC address and channel (`CH`) number as displayed by `airodump-ng`, as we will need them both for the next step.
 
-## Capture a 4-way Handshake
+### Capture a 4-way Handshake
 
 WPA/WPA2 uses a [4-way handshake](https://security.stackexchange.com/questions/17767/four-way-handshake-in-wpa-personal-wpa-psk) to authenticate devices to the network. You don't have to know anything about what that means, but you do have to capture one of these handshakes in order to crack the network password. These handshakes occur whenever a device connects to the network, for instance, when your neighbor returns home from work. We capture this handshake by directing `airmon-ng` to monitor traffic on the target network using the channel and bssid values discovered from the previous command.
 
@@ -93,11 +95,11 @@ Once you've captured a handshake, press `ctrl-c` to quit `airodump-ng`. You shou
 mv ./-01.cap hackme.cap
 ```
 
-## Cracking the network password
+### Crack the Network Password
 
 The final step is to crack the password using the captured handshake. If you have access to a GPU, I *highly* recommend using `hashcat` for password cracking. I've created a simple tool that makes hashcat super easy to use called [`naive-hashcat`](https://github.com/brannondorsey/naive-hashcat).
 
-### Cracking with `naive-hashcat` (recommended)
+#### Cracking With `naive-hashcat` (recommended)
 
 Before we can crack the password using naive-hashcat, we need to convert our `.cap` file to the equivalent hashcat file format `.hccapx`. You can do this easily by either uploading the `.cap` file to <https://hashcat.net/cap2hccapx/> or using the [`cap2hccapx`](https://github.com/hashcat/hashcat-utils) tool directly from .
 
@@ -121,7 +123,7 @@ Naive-hashcat uses various dictionary, rule, combination, and mask attacks and i
 
 If you would like to use `hashcat` without `naive-hashcat` see [this page](https://hashcat.net/wiki/doku.php?id=cracking_wpawpa2) for info.
 
-### Cracking with Aircrack-ng
+#### Cracking With Aircrack-ng
 
 Aircrack-ng can be used for very basic dictionary attacks running on your CPU. Before you run the attack you need a wordlist. I recommend using the infamous rockyou dictionary file:
 
