@@ -16,7 +16,7 @@ This tutorial assumes that you:
 - Are running a debian-based linux distro (preferably [Kali linux](https://www.kali.org/))
 - Have [Aircrack-ng](http://aircrack-ng.org/) installed
 	- `sudo apt-get install aircrack-ng`
-- Have a wireless card that supports [monitor mode](https://en.wikipedia.org/wiki/Monitor_mode) (I recommend [this one](https://www.amazon.com/s/?ie=UTF8&keywords=tl+wn722n)
+- Have a wireless card that supports [monitor mode](https://en.wikipedia.org/wiki/Monitor_mode) (I recommend [this one](https://www.amazon.com/s/?ie=UTF8&keywords=tl+wn722n))
 
 ## Cracking a Wi-Fi Network
 
