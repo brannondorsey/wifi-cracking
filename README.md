@@ -191,7 +191,7 @@ Use `airodump-ng` to monitor a specific access point (using `-c channel --bssid 
  9C:5C:8E:C9:AB:C0  64:BC:0C:48:97:F7  -37    1e- 1e     4     6479  ASUS
 ```
 
-Now, leave `airodump-ng` running and open a new terminal. We will use the `aireplay-ng` command to send fake death packets to our victim client, forcing it to reconnect to the network and hopefully grabbing a handshake in the process.
+Now, leave `airodump-ng` running and open a new terminal. We will use the `aireplay-ng` command to send fake deauth packets to our victim client, forcing it to reconnect to the network and hopefully grabbing a handshake in the process.
 
 ```bash
 # -0 10 specifies we would like to send 10 deauth packets
