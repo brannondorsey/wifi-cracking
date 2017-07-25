@@ -16,7 +16,7 @@ This tutorial assumes that you:
 - Are running a debian-based linux distro (preferably [Kali linux](https://www.kali.org/))
 - Have [Aircrack-ng](http://aircrack-ng.org/) installed
 	- `sudo apt-get install aircrack-ng`
-- Have a wireless card that supports [monitor mode](https://en.wikipedia.org/wiki/Monitor_mode) (I recommend [this one](https://www.amazon.com/s/?ie=UTF8&keywords=tl+wn722n))
+- Have a wireless card that supports [monitor mode](https://en.wikipedia.org/wiki/Monitor_mode) (I recommend [this one](https://www.amazon.com/s/?ie=UTF8&keywords=tl+wn722n). See [here](http://aircrack-ng.org/doku.php?id=compatible_cards) for more info.)
 
 ## Cracking a Wi-Fi Network
 
@@ -97,7 +97,9 @@ mv ./-01.cap hackme.cap
 
 ### Crack the Network Password
 
-The final step is to crack the password using the captured handshake. If you have access to a GPU, I **highly** recommend using `hashcat` for password cracking. I've created a simple tool that makes hashcat super easy to use called [`naive-hashcat`](https://github.com/brannondorsey/naive-hashcat).
+The final step is to crack the password using the captured handshake. If you have access to a GPU, I **highly** recommend using `hashcat` for password cracking. I've created a simple tool that makes hashcat super easy to use called [`naive-hashcat`](https://github.com/brannondorsey/naive-hashcat). If you don't have access to a GPU, there are various online GPU cracking services that you can use, like [https://gpuhash.me/](GPUHASH.me) or [OnlineHashCrack](https://www.onlinehashcrack.com/wifi-wpa-rsna-psk-crack.php). You can also try your hand at CPU cracking with Aircrack-ng.
+
+Note that both attack methods below assume a relatively weak user generated password. Most WPA/WPA2 routers come with strong 12 character random passwords that many users (rightly) leave unchanged. If you are attempting to crack one of these passwords, I recommend using the [Probable-Wordlists WPA-length](https://github.com/berzerk0/Probable-Wordlists/tree/master/Real-Passwords/WPA-Length) dictionary files.
 
 #### Cracking With `naive-hashcat` (recommended)
 
@@ -112,15 +114,17 @@ Next, download and run `naive-hashcat`:
 ```bash
 # download
 git clone https://github.com/brannondorsey/naive-hashcat
-
 cd naive-hashcat
+
+# download the 134MB rockyou dictionary file
+curl -L -o dicts/rockyou.txt https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt
 
 # crack ! baby ! crack !
 # 2500 is the hashcat hash mode for WPA/WPA2
 HASH_FILE=hackme.hccapx POT_FILE=hackme.pot HASH_TYPE=2500 ./naive-hashcat.sh
 ```
 
-Naive-hashcat uses various dictionary, rule, combination, and mask attacks and it can take days or even months to run against strong passwords. The cracked password will be saved to hackme.pot, so check this file periodically. Once you've cracked the password, you should see something like this as the contents of your `POT_FILE`:
+Naive-hashcat uses various [dictionary](https://hashcat.net/wiki/doku.php?id=dictionary_attack), [rule](https://hashcat.net/wiki/doku.php?id=rule_based_attack), [combination](https://hashcat.net/wiki/doku.php?id=combinator_attack), and [mask](https://hashcat.net/wiki/doku.php?id=mask_attack) (smart brute-force) attacks and it can take days or even months to run against mid-strength passwords. The cracked password will be saved to hackme.pot, so check this file periodically. Once you've cracked the password, you should see something like this as the contents of your `POT_FILE`:
 
 ```
 e30a5a57fc00211fc9f57a4491508cc3:9c5c8ec9abc0:acd1b8dfd971:ASUS:hacktheplanet
@@ -234,4 +238,6 @@ HASH_FILE=hackme.hccapx POT_FILE=hackme.pot HASH_TYPE=2500 ./naive-hashcat.sh
 
 ## Attribution
 
-Much of the information presented here was gleaned from [Lewis Encarnacion's awesome tutorial](https://lewiscomputerhowto.blogspot.com/2014/06/how-to-hack-wpawpa2-wi-fi-with-kali.html). Thanks also to the awesome authors and maintainers who work on Aircrack-ng and Hashcat.
+Much of the information presented here was gleaned from [Lewis Encarnacion's awesome tutorial](https://lewiscomputerhowto.blogspot.com/2014/06/how-to-hack-wpawpa2-wi-fi-with-kali.html). Thanks also to the awesome authors and maintainers who work on Aircrack-ng and Hashcat. 
+
+Shout out to [DrinkMoreCodeMore](https://www.reddit.com/user/DrinkMoreCodeMore), [hivie7510](https://www.reddit.com/user/hivie7510), [hartzell](https://github.com/hartzell), [flennic](https://github.com/flennic), [bhusang](https://github.com/bhusang), and [Shark0der](https://github.com/shark0der) who also provided suggestions and typo fixes on [Reddit](https://www.reddit.com/r/hacking/comments/6p50is/crack_wpawpa2_wifi_routers_with_aircrackng_and/) and GitHub. If you are interested in hearing some great proposed alternatives to WPA2, check out some of the great discussion on [this](https://news.ycombinator.com/item?id=14840539) Hacker News post.
