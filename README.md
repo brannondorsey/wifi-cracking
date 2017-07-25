@@ -130,7 +130,7 @@ Naive-hashcat uses various [dictionary](https://hashcat.net/wiki/doku.php?id=dic
 e30a5a57fc00211fc9f57a4491508cc3:9c5c8ec9abc0:acd1b8dfd971:ASUS:hacktheplanet
 ```
 
-Where the last two fields seperated by `:` are the network name and password respectively.
+Where the last two fields separated by `:` are the network name and password respectively.
 
 If you would like to use `hashcat` without `naive-hashcat` see [this page](https://hashcat.net/wiki/doku.php?id=cracking_wpawpa2) for info.
 
