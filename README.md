@@ -97,7 +97,7 @@ mv ./-01.cap hackme.cap
 
 ### Crack the Network Password
 
-The final step is to crack the password using the captured handshake. If you have access to a GPU, I **highly** recommend using `hashcat` for password cracking. I've created a simple tool that makes hashcat super easy to use called [`naive-hashcat`](https://github.com/brannondorsey/naive-hashcat). If you don't have access to a GPU, there are various online GPU cracking services that you can use, like [https://gpuhash.me/](GPUHASH.me) or [OnlineHashCrack](https://www.onlinehashcrack.com/wifi-wpa-rsna-psk-crack.php). You can also try your hand at CPU cracking with Aircrack-ng.
+The final step is to crack the password using the captured handshake. If you have access to a GPU, I **highly** recommend using `hashcat` for password cracking. I've created a simple tool that makes hashcat super easy to use called [`naive-hashcat`](https://github.com/brannondorsey/naive-hashcat). If you don't have access to a GPU, there are various online GPU cracking services that you can use, like [GPUHASH.me](https://gpuhash.me/) or [OnlineHashCrack](https://www.onlinehashcrack.com/wifi-wpa-rsna-psk-crack.php). You can also try your hand at CPU cracking with Aircrack-ng.
 
 Note that both attack methods below assume a relatively weak user generated password. Most WPA/WPA2 routers come with strong 12 character random passwords that many users (rightly) leave unchanged. If you are attempting to crack one of these passwords, I recommend using the [Probable-Wordlists WPA-length](https://github.com/berzerk0/Probable-Wordlists/tree/master/Real-Passwords/WPA-Length) dictionary files.
 
