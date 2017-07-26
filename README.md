@@ -203,7 +203,7 @@ aireplay-ng -0 2 -a 9C:5C:8E:C9:AB:C0 -c 64:BC:0C:48:97:F7 mon0
 
 You can optionally broadcast deauth packets to all connected clients with:
 
-```
+```bash
 # not all clients respect broadcast deaths though
 aireplay-ng -0 2 -a 9C:5C:8E:C9:AB:C0 mon0
 ``` 
