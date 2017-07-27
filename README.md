@@ -195,7 +195,7 @@ Now, leave `airodump-ng` running and open a new terminal. We will use the `airep
 
 ```bash
 # -0 2 specifies we would like to send 2 deauth packets. Increase this number
-# if need be with the risk of noticably interrupting client network activity
+# if need be with the risk of noticeably interrupting client network activity
 # -a is the MAC of the access point
 # -c is the MAC of the client
 aireplay-ng -0 2 -a 9C:5C:8E:C9:AB:C0 -c 64:BC:0C:48:97:F7 mon0
