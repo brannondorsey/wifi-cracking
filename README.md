@@ -2,7 +2,7 @@
 
 Crack WPA/WPA2 Wi-Fi Routers with Airodump-ng and [Aircrack-ng](http://aircrack-ng.org/)/[Hashcat](http://hashcat.net/). 
 
-This is a brief walk-through tutorial that illustrates how to crack Wi-Fi networks that are secured using weak passwords. It is not exhaustive, but it should be enough information for you to test your own network's security or break into one nearby. The attack outlined below is entirely passive (listening only, nothing is broadcast from your computer) and it is impossible to detect provided that you don't actually use the password that you crack. An optional active deauthentication attack can be used to speed up the reconnaissance process and is described at the [end of this document](#deauth-attack).
+This is a brief walk-through tutorial that illustrates how to crack Wi-Fi networks that are secured using weak passwords. It is not exhaustive, but it should be enough information for you to test your own network's security or break into one nearby. The attack outlined below is entirely passive (listening only, nothing is broadcasted from your computer) and it is impossible to detect provided that you don't actually use the password that you crack. An optional active deauthentication attack can be used to speed up the reconnaissance process and is described at the [end of this document](#deauth-attack).
 
 If you are familiar with this process, you can skip the descriptions and jump to a list of the commands used at [the bottom](#list-of-commands).
 
