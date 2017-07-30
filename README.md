@@ -246,7 +246,7 @@ HASH_FILE=hackme.hccapx POT_FILE=hackme.pot HASH_TYPE=2500 ./naive-hashcat.sh
 
 ## Appendix
 
-The response to this tutorial was so great that I've added suggestions and additional material from community members as an appendix. Check it out to learn how to:
+The response to this tutorial was so great that I've added suggestions and additional material from community members as an [appendix](appendix.md). Check it out to learn how to:
 
 - Capture handshakes from every network around you with `wlandump-ng`
 - Use `crunch` to generate 100+GB wordlists on-the-fly
