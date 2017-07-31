@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2
+
+- Add MacOS/OSX support via the [appendix](appendix.md), thanks [harshpatel991](https://github.com/harshpatel991)!
+
 ## 1.1
 
 - Add [appendix](appendix.md)

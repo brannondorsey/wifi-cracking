@@ -1,6 +1,53 @@
 # Appendix
 
-After the initial release of this tutorial, several people from various corners of the internet reached out with comments and suggestions. Two of the most interesting are alternative methods for capturing 4-way handshakes using `wlandump-ng` and programatically generating wordlists for Aircrack-ng using `crunch`. In an effort two keep the original tutorial short and sweet, I've included information about their wonderful suggestions here, and added a few of my own.
+After the initial release of this tutorial, several people from various corners of the internet reached out with comments and suggestions. In an effort two keep the original tutorial short and sweet, I've included information about their wonderful suggestions here, and added some of my own. Here you will find info on:
+
+- Wi-Fi cracking on MacOS/OSX
+- Capturing handshakes with `landump-ng`
+- Generating wordlists with `crunch`
+- Protecting your identity with `macchanger`
+
+## Wi-Fi cracking on MacOS/OSX
+
+Huge thanks to [@harshpatel991](https://github.com/harshpatel991) for contributing this guide. The following explains how to use built-in MacOS/OSX tools to capture a 4-way handshake and naive-hashcat to determine the password of a WPA/WPA2 wireless network. This method has been tested on OSX versions 10.10 and 10.12 but will likely work with other versions as well. Like the main tutorial, it assumes you have a [wireless card](http://www.wirelesshack.org/best-kali-linux-compatible-usb-adapter-dongles-2016.html) that supports [monitor mode](https://en.wikipedia.org/wiki/Monitor_mode). We've tested this on both Early-2012 and Mid-2015 Macbook Pros with great success.
+
+### Wireless Diagnostics tools
+
+Luckily, OSX comes with a suite of wireless diagnostic tools. To open them, hold down the option key on your keyboard and click on the Wi-Fi icon in the menu bar. Then click "Open Wireless Diagnostics..."
+
+### Determine the channel of your target network
+
+With Wireless Diagnostics open, click on Window > Scan. Find the target network, note its channel and width.
+
+### Capture a 4-way Handshake
+
+1. With Wireless Diagnostics open, click on Window > Sniffer. Select the channel and width that you found in the previous step.
+2. Now you'll need to wait for a device to connect to the target network. If you are testing this on your network (which you should be), reconnect a wireless device to capture a handshake.
+3. Once you think you've got a handshake, click Stop.
+4. The `.wcap` capture file will either be saved to your Desktop or `/var/tmp/` depending on your operating system version.
+5. Convert the capture file to `.hccapx` by uploading it to https://hashcat.net/cap2hccapx/. If you captured any handshakes, the site will start downloading a `.hccapx` file. No download will be prompted if you did not.
+
+### Crack the password with `naive-hashcat`
+
+```bash
+# clone naive-hashcat
+git clone https://github.com/brannondorsey/naive-hashcat
+cd naive-hashcat
+
+# build from source on MacOS/OSX
+./build-hashcat-osx.sh
+
+# download the 134MB rockyou dictionary file
+curl -L -o dicts/rockyou.txt https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt
+```
+
+Finally, run `naive-hashcat.sh`. Change `handshake.hccapx` to the name of the file you downloaded from [hashcat.net](https://hashcat.net/cap2hccapx/). `cracked.pot` is the name of the output file. 
+
+```
+HASH_FILE=handshake.hccapx POT_FILE=cracked.pot HASH_TYPE=2500 ./naive-hashcat.sh
+```
+
+Thanks again to [@harshpatel991](https://github.com/harshpatel991), as well as [phillips321](http://www.phillips321.co.uk/) for his [post](https://www.phillips321.co.uk/2016/07/09/hashcat-on-os-x-getting-it-going/) about building hashcat for OSX.
 
 ## Capturing handshakes with `wlandump-ng`
 
@@ -95,7 +142,7 @@ crunch 10 10 -t "%%%%%%%%%%" | aircrack-ng -a2 capture.cap -b 58:98:35:CB:A2:77 
 
 Thanks to [@hiteshnayak305](https://github.com/hiteshnayak305) for the introduction to `crunch` and including this update as a [PR](https://github.com/brannondorsey/wifi-cracking/pull/17).
 
-## Macchanger
+## Protecting your identify with `macchanger`
 
 Whenever you are doing anything remotely nefarious with Wi-Fi, it is a good idea to spoof your the MAC address of your Wi-Fi device so that any network traffic that gets recorded can't be tied to serial assigned by your device manufacturer.
 
