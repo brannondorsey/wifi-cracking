@@ -1,6 +1,8 @@
-# Wi-Fi Cracking
+# Wi-Fi破解
 
 Crack WPA/WPA2 Wi-Fi Routers with Airodump-ng and [Aircrack-ng](http://aircrack-ng.org/)/[Hashcat](http://hashcat.net/). 
+
+利用 Airodump-ng以及[Aircrack-ng](http://aircrack-ng.org/)/[Hashcat](http://hashcat.net/)破解WPA/WPA2 WI-FI路由器。
 
 This is a brief walk-through tutorial that illustrates how to crack Wi-Fi networks that are secured using weak passwords. It is not exhaustive, but it should be enough information for you to test your own network's security or break into one nearby. The attack outlined below is entirely passive (listening only, nothing is broadcast from your computer) and it is impossible to detect provided that you don't actually use the password that you crack. An optional active deauthentication attack can be used to speed up the reconnaissance process and is described at the [end of this document](#deauth-attack).
 
@@ -15,7 +17,7 @@ This tutorial assumes that you:
 - Have a general comfortability using the command-line
 - Are running a debian-based linux distro, preferably [Kali linux](https://www.kali.org/) (OSX users see the [appendix](appendix.md))
 - Have [Aircrack-ng](http://aircrack-ng.org/) installed
-	- `sudo apt-get install aircrack-ng`
+  - `sudo apt-get install aircrack-ng`
 - Have a wireless card that supports [monitor mode](https://en.wikipedia.org/wiki/Monitor_mode) (see [here](http://www.wirelesshack.org/best-kali-linux-compatible-usb-adapter-dongles-2016.html) for a list of supported devices)
 
 ## Cracking a Wi-Fi Network
@@ -206,7 +208,7 @@ You can optionally broadcast deauth packets to all connected clients with:
 ```bash
 # not all clients respect broadcast deauths though
 aireplay-ng -0 2 -a 9C:5C:8E:C9:AB:C0 mon0
-``` 
+```
 
 Once you've sent the deauth packets, head back over to your `airodump-ng` process, and with any luck you should now see something like this at the top right: `[ WPA handshake: 9C:5C:8E:C9:AB:C0`. Now that you've captured a handshake you should be ready to [crack the network password](#cracking-the-network-password).
 
