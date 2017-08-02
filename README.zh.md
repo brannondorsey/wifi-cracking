@@ -218,8 +218,10 @@ If the password is cracked you will see a `KEY FOUND!` message in the terminal f
 ## 解除认证攻击
 
 A deauth attack sends forged deauthentication packets from your machine to a client connected to the network you are trying to crack. These packets include fake "sender" addresses that make them appear to the client as if they were sent from the access point themselves. Upon receipt of such packets, most clients disconnect from the network and immediately reconnect, providing you with a 4-way handshake if you are listening with `airodump-ng`. 
+解除认证攻击会将伪造的身份验证数据包从您的计算机发送到连接到您尝试破解的网络的客户端。 这些数据包包括伪造的“发件人”地址，使得它们像客户端那样从接入点本身发送出去。 收到这样的数据包后，大多数客户端断开与网络的连接，并立即重新连接，如果您正在使用`airodump-ng`进行侦听，则提供4路握手。
 
 Use `airodump-ng` to monitor a specific access point (using `-c channel --bssid MAC`) until you see a client (`STATION`) connected. A connected client look something like this, where is `64:BC:0C:48:97:F7` the client MAC.
+使用`airodump-ng`监视特定接入点（使用`-c channel --bssid MAC`），直到看到客户端（`STATION`）连接。 连接的客户端看起来像这样，`64：BC：0C：48：97：F7`是客户端MAC。
 
 ```
  CH  6 ][ Elapsed: 2 mins ][ 2017-07-23 19:15 ]                                         
@@ -234,6 +236,7 @@ Use `airodump-ng` to monitor a specific access point (using `-c channel --bssid 
 ```
 
 Now, leave `airodump-ng` running and open a new terminal. We will use the `aireplay-ng` command to send fake deauth packets to our victim client, forcing it to reconnect to the network and hopefully grabbing a handshake in the process.
+现在，让`airodump-ng`运行并打开一个新的终端。 我们将使用`aireplay-ng`命令向我们的受害者客户端发送假的接触认证数据包，强制其重新连接到网络，并希望在此过程中抓取握手。
 
 ```bash
 # -0 2 specifies we would like to send 2 deauth packets. Increase this number
@@ -244,6 +247,7 @@ aireplay-ng -0 2 -a 9C:5C:8E:C9:AB:C0 -c 64:BC:0C:48:97:F7 mon0
 ```
 
 You can optionally broadcast deauth packets to all connected clients with:
+你可以选择得通过广播接触认证数据包到所有连接的客户端：
 
 ```bash
 # not all clients respect broadcast deauths though
@@ -251,10 +255,13 @@ aireplay-ng -0 2 -a 9C:5C:8E:C9:AB:C0 mon0
 ```
 
 Once you've sent the deauth packets, head back over to your `airodump-ng` process, and with any luck you should now see something like this at the top right: `[ WPA handshake: 9C:5C:8E:C9:AB:C0`. Now that you've captured a handshake you should be ready to [crack the network password](#cracking-the-network-password).
+一旦你发送了解除认证数据包，回到你的`airodump-ng`进程，运气好的话你现在应该看到右上角：`[WPA握手：9C：5C：8E：C9：AB：C0`。 现在你已经捕获了握手，你应该准备好[破解网络密码](#crack-the-network-password)。
 
 ## List of Commands
+## 命令列表
 
 Below is a list of all of the commands needed to crack a WPA/WPA2 network, in order, with minimal explanation.
+下面列出了破解WPA / WPA2网络所需的所有命令，以最少的解释为依据。
 
 ```bash
 # put your network device into monitor mode
@@ -287,8 +294,10 @@ HASH_FILE=hackme.hccapx POT_FILE=hackme.pot HASH_TYPE=2500 ./naive-hashcat.sh
 ```
 
 ## Appendix
+## 附录
 
 The response to this tutorial was so great that I've added suggestions and additional material from community members as an [appendix](appendix.md). Check it out to learn how to:
+对本教程的回应是非常好的，我已经添加了社区成员的建议和附加资料作为[附录](# appendix.zh.md)。看看如何：
 
 - Capture handshakes and crack WPA passwords on MacOS/OSX
 - Capture handshakes from every network around you with `wlandump-ng`
