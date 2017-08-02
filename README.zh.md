@@ -303,6 +303,10 @@ The response to this tutorial was so great that I've added suggestions and addit
 - Capture handshakes from every network around you with `wlandump-ng`
 - Use `crunch` to generate 100+GB wordlists on-the-fly
 - Spoof your MAC address with `macchanger`
+- 在MacOS/OSX上捕获握手并且破解WPA密码
+- 利用`wlandump-ng`捕获从你周围每个网络捕获握手
+- 使用`crunch`即时生成100多GB的单词列表
+-  利用`macchanger`伪造你的MAC地址
 
 ## Attribution
 
