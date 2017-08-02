@@ -91,7 +91,7 @@ CH 13 ][ Elapsed: 52 s ][ 2017-07-23 15:49
 ```
 
 For the purposes of this demo, we will choose to crack the password of my network, "hackme". Remember the BSSID MAC address and channel (`CH`) number as displayed by `airodump-ng`, as we will need them both for the next step.
-出于这个演示的目的，我们将会破解我自己的网络，"hackme"。记住利用`airodump-ng`展示的BSSID MAC地址以及频道（`CH`）号，因为在下一个步骤中我们将会需要它们。
+出于这个演示的目的，我们将会破解我自己的网络，"hackme"。记住利用`airodump-ng`展示的BSSID MAC地址以及信道（`CH`）号，因为在下一个步骤中我们将会需要它们。
 
 ### Capture a 4-way Handshake
 ### 捕获4路握手
