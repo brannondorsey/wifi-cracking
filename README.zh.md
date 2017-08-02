@@ -95,7 +95,7 @@ For the purposes of this demo, we will choose to crack the password of my networ
 ### 捕获4路握手
 
 WPA/WPA2 uses a [4-way handshake](https://security.stackexchange.com/questions/17767/four-way-handshake-in-wpa-personal-wpa-psk) to authenticate devices to the network. You don't have to know anything about what that means, but you do have to capture one of these handshakes in order to crack the network password. These handshakes occur whenever a device connects to the network, for instance, when your neighbor returns home from work. We capture this handshake by directing `airmon-ng` to monitor traffic on the target network using the channel and bssid values discovered from the previous command.
-WPA/WPA2使用[4路握手](https://security.stackexchange.com/questions/17767/four-way-handshake-in-wpa-personal-wpa-psk)来认证设备连接网络。你不想要明白这些的含意，但是你必须步骤这些握手从而能够破解网络密码。这些握手发生在设备连接网络的时候，比如，当你的邻居工作回家的时候。我们通过之前命令发现的信道以及bssid值来使用`airmon-ng`来监视目标网络。
+WPA/WPA2使用[4路握手](https://security.stackexchange.com/questions/17767/four-way-handshake-in-wpa-personal-wpa-psk)来认证设备连接网络。你不想要明白这些的含意，但是你必须捕获这些握手从而能够破解网络密码。这些握手发生在设备连接网络的时候，比如，当你的邻居工作回家的时候。我们通过之前命令发现的信道以及bssid值来使用`airmon-ng`来监视目标网络。
 
 ```bash
 # replace -c and --bssid values with the values of your target network
@@ -159,18 +159,23 @@ HASH_FILE=hackme.hccapx POT_FILE=hackme.pot HASH_TYPE=2500 ./naive-hashcat.sh
 ```
 
 Naive-hashcat uses various [dictionary](https://hashcat.net/wiki/doku.php?id=dictionary_attack), [rule](https://hashcat.net/wiki/doku.php?id=rule_based_attack), [combination](https://hashcat.net/wiki/doku.php?id=combinator_attack), and [mask](https://hashcat.net/wiki/doku.php?id=mask_attack) (smart brute-force) attacks and it can take days or even months to run against mid-strength passwords. The cracked password will be saved to hackme.pot, so check this file periodically. Once you've cracked the password, you should see something like this as the contents of your `POT_FILE`:
+Naive-hashcat使用多种[字典](https://hashcat.net/wiki/doku.php?id=dictionary_attack)，[规则](https://hashcat.net/wiki/doku.php?id=rule_based_attack)，[组合](https://hashcat.net/wiki/doku.php?id=combinator_attack)以及[伪装](https://hashcat.net/wiki/doku.php?id=mask_attack)（聪明的暴力）攻击，并且它需要花费数天甚至数月来破解中等长度的密码。破解的密码将会保存到hackme.pot，因此阶段性地检查这个文件。一旦你破解这个密码，你将会在你的`POI_FILE`看到类似于下面的内容：
 
 ```
 e30a5a57fc00211fc9f57a4491508cc3:9c5c8ec9abc0:acd1b8dfd971:ASUS:hacktheplanet
 ```
 
 Where the last two fields separated by `:` are the network name and password respectively.
+最后两块被`:`分隔开来，分别是网络名称和密码。
 
 If you would like to use `hashcat` without `naive-hashcat` see [this page](https://hashcat.net/wiki/doku.php?id=cracking_wpawpa2) for info.
+如果你希望不需要`naive-hashcat`来使用`hashcat`的话请参考[这个页面](https://hashcat.net/wiki/doku.php?id=cracking_wpawpa2)。
 
 #### Cracking With Aircrack-ng
+#### 利用Aircrack-ng破解
 
 Aircrack-ng can be used for very basic dictionary attacks running on your CPU. Before you run the attack you need a wordlist. I recommend using the infamous rockyou dictionary file:
+Aircrack-ng可以用于在你的CPU上运行来进行非常基本的字典攻击。在你运行攻击之前，你需要一个单词表。我推荐使用非常著名的rockyou字典文件：
 
 ```bash
 # download the 134MB rockyou dictionary file
@@ -178,6 +183,7 @@ curl -L -o rockyou.txt https://github.com/brannondorsey/naive-hashcat/releases/d
 ```
 
 Note, that if the network password is not in the wordfile you will not crack the password.
+注意，如果网络密码不再这个单词文件话，你将不能破解密码。
 
 ```bash
 # -a2 specifies WPA2, -b is the BSSID, -w is the wordfile
@@ -185,6 +191,7 @@ aircrack-ng -a2 -b 9C:5C:8E:C9:AB:C0 -w rockyou.txt hackme.cap
 ```
 
 If the password is cracked you will see a `KEY FOUND!` message in the terminal followed by the plain text version of the network password.
+如果密码被破解了，你将会在终端看到一个`KEY FOUND!`消息，在其后将会看到网络密码的纯文本。
 
 ```
                                  Aircrack-ng 1.2 beta3
@@ -208,6 +215,7 @@ If the password is cracked you will see a `KEY FOUND!` message in the terminal f
 ```
 
 ## Deauth Attack
+## 解除认证攻击
 
 A deauth attack sends forged deauthentication packets from your machine to a client connected to the network you are trying to crack. These packets include fake "sender" addresses that make them appear to the client as if they were sent from the access point themselves. Upon receipt of such packets, most clients disconnect from the network and immediately reconnect, providing you with a 4-way handshake if you are listening with `airodump-ng`. 
 
