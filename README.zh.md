@@ -29,7 +29,9 @@ This tutorial assumes that you:
 - Have a wireless card that supports [monitor mode](https://en.wikipedia.org/wiki/Monitor_mode) (see [here](http://www.wirelesshack.org/best-kali-linux-compatible-usb-adapter-dongles-2016.html) for a list of supported devices)
 - 可以流畅使用命令行
 - 使用一个基于debian的linux发行版本，最好是[Kali linux](https://www.kali.org/)（OSX用户参考[附录](appendix.zh.md)）
-- 无线网卡能够支持[监视模式](https://en.wikipedia.org/wiki/Monitor_mode)（对于支持的设备列表，参考[这](http://www.wirelesshack.org/best-kali-linux-compatible-usb-adapter-dongles-2016.html)
+- 安装[Aircrack-ng](http://aircrack-ng.org/)
+  - `sudo apt-get install aircrack-ng`
+- 无线网卡能够支持[监视模式](https://en.wikipedia.org/wiki/Monitor_mode)（对于支持的设备列表，参考[这](http://www.wirelesshack.org/best-kali-linux-compatible-usb-adapter-dongles-2016.html))
 
 ## Cracking a Wi-Fi Network
 ## 破解一个WI-FI网络
