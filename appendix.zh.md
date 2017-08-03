@@ -63,20 +63,25 @@ curl -L -o dicts/rockyou.txt https://github.com/brannondorsey/naive-hashcat/rele
 ```
 
 Finally, run `naive-hashcat.sh`. Change `handshake.hccapx` to the name of the file you downloaded from [hashcat.net](https://hashcat.net/cap2hccapx/). `cracked.pot` is the name of the output file. 
+最后，运行`naive-hashcat.sh`。将`handshake.hccapx`的名称改成你从[hashcat.net](https://hashcat.net/cap2hccapx/)下载的文件名称。`cracked.pot`是输出文件名称。
 
 ```
 HASH_FILE=handshake.hccapx POT_FILE=cracked.pot HASH_TYPE=2500 ./naive-hashcat.sh
 ```
 
 Thanks again to [@harshpatel991](https://github.com/harshpatel991), as well as [phillips321](http://www.phillips321.co.uk/) for his [post](https://www.phillips321.co.uk/2016/07/09/hashcat-on-os-x-getting-it-going/) about building hashcat for OSX.
+再次感谢[@harshpatel991](https://github.com/harshpatel991)，以及感谢[phillips321](http://www.phillips321.co.uk/)他的在OSX上构建hashcat的[帖子](https://www.phillips321.co.uk/2016/07/09/hashcat-on-os-x-getting-it-going/)。
 
 ## Capturing handshakes with `wlandump-ng`
+## 利用`wlandump-ng`来捕获握手
 
 [@enilfodne](https://github.com/enilfodne) has [informed me](https://github.com/brannondorsey/wifi-cracking/issues/15) that the hashcat community has a prefered tool for capturing WPA 4-way handshakes, called `wlandump-ng`. This tool belongs to a suite of hashcat related utilities called [hcxtools](https://github.com/ZerBea/hcxtools) developed by [ZerBea](https://github.com/ZerBea), and has notable perks over `airdump-ng`. `wlandump-ng` allows you to blanket capture handshakes from every nearby network at once, hopping Wi-Fi channels in order to increase collection.
+[@enilfodne](https://github.com/enilfodne)已经[告诉我](https://github.com/brannondorsey/wifi-cracking/issues/15)hashcat社区对于捕获WPA 4路握手有了更好的工具，叫做`wlandump-ng`。这个工具属于与hashcat相关的工具集[hcxtools](https://github.com/ZerBea/hcxtools)系列之中，由[ZerBea](https://github.com/ZerBea)开发，名声已经超过了`airdump-ng`。`wlandump-ng`允许你一次性从每个附近的网络上全面捕获握手信息，跳过Wi-Fi信道，以增加收集。
 
 
 ```bash
 # clone hcxtools
+# 克隆hcxtools
 git clone https://github.com/ZerBea/hcxtools
 cd hcxtools
 
