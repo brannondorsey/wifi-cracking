@@ -74,8 +74,8 @@ CH 13 ][ Elapsed: 52 s ][ 2017-07-23 15:49
 WPA/WPA2使用[4路握手](https://security.stackexchange.com/questions/17767/four-way-handshake-in-wpa-personal-wpa-psk)来认证设备连接网络。你不想要明白这些的含意，但是你必须捕获这些握手从而能够破解网络密码。这些握手发生在设备连接网络的时候，比如，当你的邻居工作回家的时候。我们通过之前命令发现的信道以及bssid值来使用`airmon-ng`来监视目标网络。
 
 ```bash
-# 将-c以及--bssid值替换为你的目标网络值
-# -w制订了我们保存捕获数据包保存的文件夹
+# 将-c 以及--bssid值替换为你的目标网络值
+# -w 制订了我们保存捕获数据包保存的文件夹
 airodump-ng -c 3 --bssid 9C:5C:8E:C9:AB:C0 -w . mon0
 ```
 ```
