@@ -256,6 +256,6 @@ HASH_FILE=hackme.hccapx POT_FILE=hackme.pot HASH_TYPE=2500 ./naive-hashcat.sh
 
 ## 致谢
 
-这里提供的大部分信息都是从[Lewis Encarnacion的绝妙的教程]（https://lewiscomputerhowto.blogspot.com/2014/06/how-to-hack-wpawpa2-wi-fi-with-kali.html）收集的。 感谢在Aircrack-ng和Hashcat上工作的优秀作者和维护者。
+这里提供的大部分信息都是从[Lewis Encarnacion的绝妙的教程](https://lewiscomputerhowto.blogspot.com/2014/06/how-to-hack-wpawpa2-wi-fi-with-kali.html)收集的。 感谢在Aircrack-ng和Hashcat上工作的优秀作者和维护者。
 
 感谢[hiteshnayak305](https://github.com/hiteshnayak305)，[enilfodne](https://github.com/enilfodne)，[DrinkMoreCodeMore](https://www.reddit.com/user/DrinkMoreCodeMore)，[hivie7510](https://www.reddit.com/user/hivie7510)，[cprogrammer1994](https://github.com/cprogrammer1994)，[0XE4](https://github.com/0XE4)，[hartzell](https://github.com/hartzell)，[zeeshanu](https://github.com/zeeshanu)，[flennic](https://github.com/flennic)，[bhusang](https://github.com/bhusang)，[tversteeg](https://github.com/tversteeg)，[gpetrousov](https://github.com/gpetrousov)，[crowchirp](https://github.com/crowchirp)和[Shark0der](https://github.com/shark0der)，他们还在[Reddit](https://www.reddit.com/r/hacking/comments/6p50is/crack_wpawpa2_wifi_routers_with_aircrackng_and/)和GitHub。如果您有兴趣听取WPA2的一些建议替代方案，请在[这](https://news.ycombinator.com/item?id=14840539)参考Hacker News的一些重要讨论。
