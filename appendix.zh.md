@@ -100,10 +100,12 @@ sudo make install
 wlandump-ng -i wlan0 -o capture.cap -c 1 -t 60 -d 100 -D 10 -m 512 -b -r -s 20 
 
 # once you've got a capture file, you can convert it to the hashcat capture format with
+# 一旦你获得了捕获的文件，你可以利用以下命令将其转换成hashcat捕获格式
 cap2hccapx.bin capture.cap capture.hccapx
 ```
 
 `wlandump-ng` command-line args (use `-h` flag for full list):
+`wlandump-ng`命令行参数（使用`h`标志来获得完整列表）：
 
 - `-c 1`: start in the 2.4Ghz range from channel 1 (will go to 13)
 - `-t 60`: stay on each channel for 60s (experiment with lower values, default is `5`)
