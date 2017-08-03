@@ -36,7 +36,7 @@ cd naive-hashcat
 # 在MacOS/OSX上构建源代码
 ./build-hashcat-osx.sh
 
-# 下载134MBrockyou字典文件
+# 下载134MB rockyou字典文件
 curl -L -o dicts/rockyou.txt https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt
 ```
 
@@ -46,7 +46,6 @@ curl -L -o dicts/rockyou.txt https://github.com/brannondorsey/naive-hashcat/rele
 HASH_FILE=handshake.hccapx POT_FILE=cracked.pot HASH_TYPE=2500 ./naive-hashcat.sh
 ```
 
-Thanks again to [@harshpatel991](https://github.com/harshpatel991), as well as [phillips321](http://www.phillips321.co.uk/) for his [post](https://www.phillips321.co.uk/2016/07/09/hashcat-on-os-x-getting-it-going/) about building hashcat for OSX.
 再次感谢[@harshpatel991](https://github.com/harshpatel991)，以及感谢[phillips321](http://www.phillips321.co.uk/)他的在OSX上构建hashcat的[帖子](https://www.phillips321.co.uk/2016/07/09/hashcat-on-os-x-getting-it-going/)。
 
 ## 利用`wlandump-ng`来捕获握手
