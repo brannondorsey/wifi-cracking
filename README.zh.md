@@ -98,77 +98,59 @@ mv ./-01.cap hackme.cap
 
 ### 破解网络密码
 
-The final step is to crack the password using the captured handshake. If you have access to a GPU, I **highly** recommend using `hashcat` for password cracking. I've created a simple tool that makes hashcat super easy to use called [`naive-hashcat`](https://github.com/brannondorsey/naive-hashcat). If you don't have access to a GPU, there are various online GPU cracking services that you can use, like [GPUHASH.me](https://gpuhash.me/) or [OnlineHashCrack](https://www.onlinehashcrack.com/wifi-wpa-rsna-psk-crack.php). You can also try your hand at CPU cracking with Aircrack-ng.
 最后一个步骤是使用捕获的握手来破解密码。如果你能够访问GPU，我**强烈**建议你使用`hashcat`来破解密码。我已经创建了一个叫做[`naive-hashcat`](https://github.com/brannondorsey/naive-hashcat)的简单工具可以让使用hashcat变得非常方便。如果你不能够访问GPU，还有很多在线的GPU破解服务可以使用，比如[GPUHASH.me](https://gpuhash.me/)或者[OnlineHashCrack](https://www.onlinehashcrack.com/wifi-wpa-rsna-psk-crack.php)。你也可以常使用Aircrack-ng来进行CPU破解。
 
-Note that both attack methods below assume a relatively weak user generated password. Most WPA/WPA2 routers come with strong 12 character random passwords that many users (rightly) leave unchanged. If you are attempting to crack one of these passwords, I recommend using the [Probable-Wordlists WPA-length](https://github.com/berzerk0/Probable-Wordlists/tree/master/Real-Passwords/WPA-Length) dictionary files.
 注意下面的攻击方法都假设用户使用弱的密码。大多数WPA/WPA2路由自带12位强随机密码，大多数用户都不会去更改。如果你去尝试破解这些密码，我建议你使用[Probable-Wordlists WPA-length](https://github.com/berzerk0/Probable-Wordlists/tree/master/Real-Passwords/WPA-Length) 字典文件。
 
-#### Cracking With `naive-hashcat` (recommended)
 #### 使用`naive-hashcat`破解（推荐）
 
-Before we can crack the password using naive-hashcat, we need to convert our `.cap` file to the equivalent hashcat file format `.hccapx`. You can do this easily by either uploading the `.cap` file to <https://hashcat.net/cap2hccapx/> or using the [`cap2hccapx`](https://github.com/hashcat/hashcat-utils) tool directly.
 在我们使用naive-hashcat破解密码之前，我们需要将我们的`.cap`文件转换成同等hashcat文件格式`.hccapx`。你可以通过上传`.cap`文件到<https://hashcat.net/cap2hccapx/> 或者直接使用[`cap2hccapx`](https://github.com/hashcat/hashcat-utils)工具。
 
 ```bash
 cap2hccapx.bin hackme.cap hackme.hccapx
 ```
 
-Next, download and run `naive-hashcat`:
 接着，下载并且运行`naive-hashcat`：
 
 ```bash
-# download
 # 下载
 git clone https://github.com/brannondorsey/naive-hashcat
 cd naive-hashcat
 
-# download the 134MB rockyou dictionary file
 # 下载134MBrockyou字典文件
 curl -L -o dicts/rockyou.txt https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt
 
-# crack ! baby ! crack !
 # 破解！宝贝！破解！
 # 2500是hashcat对于WPA/WPA2的哈希模式
-# 2500 is the hashcat hash mode for WPA/WPA2
 HASH_FILE=hackme.hccapx POT_FILE=hackme.pot HASH_TYPE=2500 ./naive-hashcat.sh
 ```
 
-Naive-hashcat uses various [dictionary](https://hashcat.net/wiki/doku.php?id=dictionary_attack), [rule](https://hashcat.net/wiki/doku.php?id=rule_based_attack), [combination](https://hashcat.net/wiki/doku.php?id=combinator_attack), and [mask](https://hashcat.net/wiki/doku.php?id=mask_attack) (smart brute-force) attacks and it can take days or even months to run against mid-strength passwords. The cracked password will be saved to hackme.pot, so check this file periodically. Once you've cracked the password, you should see something like this as the contents of your `POT_FILE`:
 Naive-hashcat使用多种[字典](https://hashcat.net/wiki/doku.php?id=dictionary_attack)，[规则](https://hashcat.net/wiki/doku.php?id=rule_based_attack)，[组合](https://hashcat.net/wiki/doku.php?id=combinator_attack)以及[伪装](https://hashcat.net/wiki/doku.php?id=mask_attack)（聪明的暴力）攻击，并且它需要花费数天甚至数月来破解中等长度的密码。破解的密码将会保存到hackme.pot，因此阶段性地检查这个文件。一旦你破解这个密码，你将会在你的`POI_FILE`看到类似于下面的内容：
 
 ```
 e30a5a57fc00211fc9f57a4491508cc3:9c5c8ec9abc0:acd1b8dfd971:ASUS:hacktheplanet
 ```
 
-Where the last two fields separated by `:` are the network name and password respectively.
 最后两块被`:`分隔开来，分别是网络名称和密码。
 
-If you would like to use `hashcat` without `naive-hashcat` see [this page](https://hashcat.net/wiki/doku.php?id=cracking_wpawpa2) for info.
 如果你希望不需要`naive-hashcat`来使用`hashcat`的话请参考[这个页面](https://hashcat.net/wiki/doku.php?id=cracking_wpawpa2)。
 
-#### Cracking With Aircrack-ng
 #### 利用Aircrack-ng破解
 
-Aircrack-ng can be used for very basic dictionary attacks running on your CPU. Before you run the attack you need a wordlist. I recommend using the infamous rockyou dictionary file:
 Aircrack-ng可以用于在你的CPU上运行来进行非常基本的字典攻击。在你运行攻击之前，你需要一个单词表。我推荐使用非常著名的rockyou字典文件：
 
 ```bash
-# download the 134MB rockyou dictionary file
 # 下载134MBrockyou字典文件
 curl -L -o rockyou.txt https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt
 ```
 
-Note, that if the network password is not in the wordfile you will not crack the password.
 注意，如果网络密码不再这个单词文件话，你将不能破解密码。
 
 ```bash
-# -a2 specifies WPA2, -b is the BSSID, -w is the wordfile
 # -a2指定WPA2，-b是BSSID，-w是单词文件
 aircrack-ng -a2 -b 9C:5C:8E:C9:AB:C0 -w rockyou.txt hackme.cap
 ```
 
-If the password is cracked you will see a `KEY FOUND!` message in the terminal followed by the plain text version of the network password.
 如果密码被破解了，你将会在终端看到一个`KEY FOUND!`消息，在其后将会看到网络密码的纯文本。
 
 ```
@@ -192,13 +174,10 @@ If the password is cracked you will see a `KEY FOUND!` message in the terminal f
       EAPOL HMAC     : 9F C6 51 57 D3 FA 99 11 9D 17 12 BA B6 DB 06 B4 
 ```
 
-## Deauth Attack
 ## 解除认证攻击
 
-A deauth attack sends forged deauthentication packets from your machine to a client connected to the network you are trying to crack. These packets include fake "sender" addresses that make them appear to the client as if they were sent from the access point themselves. Upon receipt of such packets, most clients disconnect from the network and immediately reconnect, providing you with a 4-way handshake if you are listening with `airodump-ng`. 
 解除认证攻击会将伪造的身份验证数据包从您的计算机发送到连接到您尝试破解的网络的客户端。 这些数据包包括伪造的“发件人”地址，使得它们像客户端那样从接入点本身发送出去。 收到这样的数据包后，大多数客户端断开与网络的连接，并立即重新连接，如果您正在使用`airodump-ng`进行侦听，则提供4路握手。
 
-Use `airodump-ng` to monitor a specific access point (using `-c channel --bssid MAC`) until you see a client (`STATION`) connected. A connected client look something like this, where is `64:BC:0C:48:97:F7` the client MAC.
 使用`airodump-ng`监视特定接入点（使用`-c channel --bssid MAC`），直到看到客户端（`STATION`）连接。 连接的客户端看起来像这样，`64：BC：0C：48：97：F7`是客户端MAC。
 
 ```
@@ -213,7 +192,6 @@ Use `airodump-ng` to monitor a specific access point (using `-c channel --bssid 
  9C:5C:8E:C9:AB:C0  64:BC:0C:48:97:F7  -37    1e- 1e     4     6479  ASUS
 ```
 
-Now, leave `airodump-ng` running and open a new terminal. We will use the `aireplay-ng` command to send fake deauth packets to our victim client, forcing it to reconnect to the network and hopefully grabbing a handshake in the process.
 现在，让`airodump-ng`运行并打开一个新的终端。 我们将使用`aireplay-ng`命令向我们的受害者客户端发送假的接触认证数据包，强制其重新连接到网络，并希望在此过程中抓取握手。
 
 ```bash
@@ -232,7 +210,6 @@ You can optionally broadcast deauth packets to all connected clients with:
 aireplay-ng -0 2 -a 9C:5C:8E:C9:AB:C0 mon0
 ```
 
-Once you've sent the deauth packets, head back over to your `airodump-ng` process, and with any luck you should now see something like this at the top right: `[ WPA handshake: 9C:5C:8E:C9:AB:C0`. Now that you've captured a handshake you should be ready to [crack the network password](#cracking-the-network-password).
 一旦你发送了解除认证数据包，回到你的`airodump-ng`进程，运气好的话你现在应该看到右上角：`[WPA握手：9C：5C：8E：C9：AB：C0`。 现在你已经捕获了握手，你应该准备好[破解网络密码](#crack-the-network-password)。
 
 ## List of Commands
