@@ -1,75 +1,52 @@
 # Wi-Fi破解
 
-Crack WPA/WPA2 Wi-Fi Routers with Airodump-ng and [Aircrack-ng](http://aircrack-ng.org/)/[Hashcat](http://hashcat.net/). 
+利用Airodump-ng以及[Aircrack-ng](http://aircrack-ng.org/)/[Hashcat](http://hashcat.net/)破解WPA/WPA2 WI-FI路由器。
 
-利用 Airodump-ng以及[Aircrack-ng](http://aircrack-ng.org/)/[Hashcat](http://hashcat.net/)破解WPA/WPA2 WI-FI路由器。
+这是一个简要的按照步骤的教程，描述了如何破解使用弱密码保护的WI-FI网络。它不会极其详尽，但是对于你测试你自己的网络安全或者入侵附近网络已经包含足够的信息。下面列出的攻击完全是被动的（仅仅监听，不会广播你电脑上的任何东西），并且对于你破解的但是却未真正使用的密码是无法监测到的。一个可选的破解认证的攻击可以用于加速侦查过程并且在[文档末尾](#deauth-attack)有描述。
 
-This is a brief walk-through tutorial that illustrates how to crack Wi-Fi networks that are secured using weak passwords. It is not exhaustive, but it should be enough information for you to test your own network's security or break into one nearby. The attack outlined below is entirely passive (listening only, nothing is broadcast from your computer) and it is impossible to detect provided that you don't actually use the password that you crack. An optional active deauthentication attack can be used to speed up the reconnaissance process and is described at the [end of this document](#deauth-attack).
-
-这是一个简要的按照步骤的教程，描述了如何破解使用弱密码保护的WI-FI网络。它不会极其详尽，但是对于你测试你自己的网络安全或者入侵附近网络已经包含足够的信息了。下面列出的攻击完全是被动的（仅仅监听，不会广播你电脑上的任何东西），并且对于你破解的但是却未真正使用的密码是无法监测到的。一个可选的破解认证的攻击可以用于加速侦查过程并且在[文档末尾](#deauth-attack)有描述。
-
-If you are familiar with this process, you can skip the descriptions and jump to a list of the commands used at [the bottom](#list-of-commands). For a variety of suggestions and alternative methods, see the [appendix](appendix.md).
 
 如果你熟悉这个过程，你可以跳过这段描述直接跳到[底部](#命令列表)使用的命令列表。至于多种建议以及可行的方法，参考[附录](appendix.zh.md)。
 
-__DISCLAIMER: This software/tutorial is for educational purposes only. It should not be used for illegal activity. The author is not responsible for its use. Don't be a dick.
-
 __声明：这个软件/教程仅仅用于教学。不应该使用它从事任何非法活动。作者不会对它的使用负责。不要犯傻。__
 
-## Getting Started
 ## 入门
 
-This tutorial assumes that you:
 这个教程认为你：
 
-- Have a general comfortability using the command-line
-- Are running a debian-based linux distro, preferably [Kali linux](https://www.kali.org/) (OSX users see the [appendix](appendix.md))
-- Have [Aircrack-ng](http://aircrack-ng.org/) installed
-  - `sudo apt-get install aircrack-ng`
-- Have a wireless card that supports [monitor mode](https://en.wikipedia.org/wiki/Monitor_mode) (see [here](http://www.wirelesshack.org/best-kali-linux-compatible-usb-adapter-dongles-2016.html) for a list of supported devices)
 - 可以流畅使用命令行
 - 使用一个基于debian的linux发行版本，最好是[Kali linux](https://www.kali.org/)（OSX用户参考[附录](appendix.zh.md)）
 - 安装[Aircrack-ng](http://aircrack-ng.org/)
   - `sudo apt-get install aircrack-ng`
 - 无线网卡能够支持[监视模式](https://en.wikipedia.org/wiki/Monitor_mode)（对于支持的设备列表，参考[这](http://www.wirelesshack.org/best-kali-linux-compatible-usb-adapter-dongles-2016.html))
 
-## Cracking a Wi-Fi Network
 ## 破解一个WI-FI网络
 
-### Monitor Mode
 ### 监视模式
 
-Begin by listing wireless interfaces that support monitor mode with:
 开始通过下面的命令可以列出支持监视模式的无线接口：
 
 ```bash
 airmon-ng
 ```
 
-If you do not see an interface listed then your wireless card does not support monitor mode 😞
 如果你看到没有列出一个接口，那么你的无线网卡就不支持监视模式 😞
 
-We will assume your wireless interface name is `wlan0` but be sure to use the correct name if it differs from this. Next, we will place the interface into monitor mode:
 我们将假设你的无线接口名称是`wlan0`，但是请确保使用正确的名称如果你的名称与这个不同的话。接下来，我们将接口转换为监视模式：
 
 ```bash
 airmon-ng start wlan0
 ```
 
-Run `iwconfig`. You should now see a new monitor mode interface listed (likely `mon0` or `wlan0mon`).
 运行`iwconfig`。你现在应该能够看到列出一个新的监视模式接口（像`mon0`或者`wlan0mon`）。
 
-### Find Your Target
 ### 找到你的目标
 
-Start listening to [802.11 Beacon frames](https://en.wikipedia.org/wiki/Beacon_frame) broadcast by nearby wireless routers using your monitor interface:
 使用你的监视接口开始监听附近的[802.11 Beacon 帧](https://en.wikipedia.org/wiki/Beacon_frame)广播：
 
 ```bash
 airodump-ng mon0
 ```
 
-You should see output similar to what is below.
 你应该可以看到类似于下面的输出。
 
 ```
@@ -90,19 +67,14 @@ CH 13 ][ Elapsed: 52 s ][ 2017-07-23 15:49
  EC:1A:59:36:AD:CA  -86      210       28    0   1  54e  WPA2 CCMP   PSK  belkin.dca
 ```
 
-For the purposes of this demo, we will choose to crack the password of my network, "hackme". Remember the BSSID MAC address and channel (`CH`) number as displayed by `airodump-ng`, as we will need them both for the next step.
 出于这个演示的目的，我们将会破解我自己的网络，"hackme"。记住利用`airodump-ng`展示的BSSID MAC地址以及信道（`CH`）号，因为在下一个步骤中我们将会需要它们。
 
-### Capture a 4-way Handshake
 ### 捕获4路握手
 
-WPA/WPA2 uses a [4-way handshake](https://security.stackexchange.com/questions/17767/four-way-handshake-in-wpa-personal-wpa-psk) to authenticate devices to the network. You don't have to know anything about what that means, but you do have to capture one of these handshakes in order to crack the network password. These handshakes occur whenever a device connects to the network, for instance, when your neighbor returns home from work. We capture this handshake by directing `airmon-ng` to monitor traffic on the target network using the channel and bssid values discovered from the previous command.
 WPA/WPA2使用[4路握手](https://security.stackexchange.com/questions/17767/four-way-handshake-in-wpa-personal-wpa-psk)来认证设备连接网络。你不想要明白这些的含意，但是你必须捕获这些握手从而能够破解网络密码。这些握手发生在设备连接网络的时候，比如，当你的邻居工作回家的时候。我们通过之前命令发现的信道以及bssid值来使用`airmon-ng`来监视目标网络。
 
 ```bash
-# replace -c and --bssid values with the values of your target network
 # 将-c以及--bssid值替换为你的目标网络值
-# -w specifies the directory where we will save the packet capture
 # -w制订了我们保存捕获数据包保存的文件夹
 airodump-ng -c 3 --bssid 9C:5C:8E:C9:AB:C0 -w . mon0
 ```
@@ -114,20 +86,16 @@ airodump-ng -c 3 --bssid 9C:5C:8E:C9:AB:C0 -w . mon0
  9C:5C:8E:C9:AB:C0  -47   0      140        0    0   6  54e  WPA2 CCMP   PSK  ASUS  
 ```
 
-Now we wait... Once you've captured a handshake, you should see something like `[ WPA handshake: bc:d3:c9:ef:d2:67` at the top right of the screen, just right of the current time. 
 现在我们等待... 一旦我们捕捉到一个握手，你应该能够马上在屏幕的右上角看到类似于`[ WPA handshake: bc:d3:c9:ef:d2:67`的一些东西。
 
-If you are feeling impatient, and are comfortable using an active attack, you can force devices connected to the target network to reconnect, be sending malicious deauthentication packets at them. This often results in the capture of a 4-way handshake. See the [deauth attack section](#deauth-attack) below for info on this. 
 如果你已经感觉不耐烦了，并且希望实施一次攻击，你可以强制设备连接到目标网站来重新连接，并且在目标网络中发送恶意的解除验证数据包。这经常就能够捕获4路握手。参考下面的[deauth攻击章节](#deauth-attack)来获取关于此的信息。
 
-Once you've captured a handshake, press `ctrl-c` to quit `airodump-ng`. You should see a `.cap` file wherever you told `airodump-ng` to save the capture (likely called `-01.cap`). We will use this capture file to crack the network password. I like to rename this file to reflect the network name we are trying to crack:
 一旦你捕获了一个握手，按下`ctrl-c`来终止`airodump-ng`。你应该可以看到一个你告诉`airodump-ng`用来保存捕获信息的`.cap`文件（比如叫做`-01.cap`）。我们将会使用这个捕获文件来破解网络密码。我喜欢对这个文件重命名从而反映我们现在尝试破解的网络名称：
 
 ```bash
 mv ./-01.cap hackme.cap
 ```
 
-### Crack the Network Password
 ### 破解网络密码
 
 The final step is to crack the password using the captured handshake. If you have access to a GPU, I **highly** recommend using `hashcat` for password cracking. I've created a simple tool that makes hashcat super easy to use called [`naive-hashcat`](https://github.com/brannondorsey/naive-hashcat). If you don't have access to a GPU, there are various online GPU cracking services that you can use, like [GPUHASH.me](https://gpuhash.me/) or [OnlineHashCrack](https://www.onlinehashcrack.com/wifi-wpa-rsna-psk-crack.php). You can also try your hand at CPU cracking with Aircrack-ng.
