@@ -5,7 +5,7 @@
 这是一个简要的按照步骤的教程，描述了如何破解使用弱密码保护的WI-FI网络。它不会极其详尽，但是对于你测试你自己的网络安全或者入侵附近网络已经包含足够的信息。下面列出的攻击完全是被动的（仅仅监听，不会广播你电脑上的任何东西），并且对于你破解的但是却未真正使用的密码是无法监测到的。一个可选的破解认证的攻击可以用于加速侦查过程并且在[文档末尾](#deauth-attack)有描述。
 
 
-如果你熟悉这个过程，你可以跳过这段描述直接跳到[底部](#命令列表)使用的命令列表。至于多种建议以及可行的方法，参考[附录](appendix.zh.md)。
+如果你熟悉这个过程，你可以跳过这段描述直接跳到[底部](#命令列表)使用的命令列表。至于多种建议以及可行的方法，参考[附录](appendix.zh.md)。[neal1991](https://github.com/neal1991)也将[这份文档](README.zh.md)以及[附录](appendix.zh.md)翻译成中文，可以选择你偏好的版本。
 
 __声明：这个软件/教程仅仅用于教学。不应该使用它从事任何非法活动。作者不会对它的使用负责。不要犯傻。__
 
@@ -254,8 +254,10 @@ HASH_FILE=hackme.hccapx POT_FILE=hackme.pot HASH_TYPE=2500 ./naive-hashcat.sh
 - 使用`crunch`即时生成100多GB的单词列表
 -  利用`macchanger`伪造你的MAC地址
 
+现在也提供[中文版本](appendix.zh.md)附录。
+
 ## 致谢
 
 这里提供的大部分信息都是从[Lewis Encarnacion的绝妙的教程](https://lewiscomputerhowto.blogspot.com/2014/06/how-to-hack-wpawpa2-wi-fi-with-kali.html)收集的。 感谢在Aircrack-ng和Hashcat上工作的优秀作者和维护者。
 
-感谢[hiteshnayak305](https://github.com/hiteshnayak305)，[enilfodne](https://github.com/enilfodne)，[DrinkMoreCodeMore](https://www.reddit.com/user/DrinkMoreCodeMore)，[hivie7510](https://www.reddit.com/user/hivie7510)，[cprogrammer1994](https://github.com/cprogrammer1994)，[0XE4](https://github.com/0XE4)，[hartzell](https://github.com/hartzell)，[zeeshanu](https://github.com/zeeshanu)，[flennic](https://github.com/flennic)，[bhusang](https://github.com/bhusang)，[tversteeg](https://github.com/tversteeg)，[gpetrousov](https://github.com/gpetrousov)，[crowchirp](https://github.com/crowchirp)和[Shark0der](https://github.com/shark0der)，他们还在[Reddit](https://www.reddit.com/r/hacking/comments/6p50is/crack_wpawpa2_wifi_routers_with_aircrackng_and/)和GitHub。如果您有兴趣听取WPA2的一些建议替代方案，请在[这](https://news.ycombinator.com/item?id=14840539)参考Hacker News的一些重要讨论。
+非常感谢[neal1991](https://github.com/neal1991)将本教程翻译成[中文](README.zh.md)。另外也感谢[hiteshnayak305](https://github.com/hiteshnayak305)，[enilfodne](https://github.com/enilfodne)， [DrinkMoreCodeMore](https://www.reddit.com/user/DrinkMoreCodeMore)，[hivie7510](https://www.reddit.com/user/hivie7510)，[cprogrammer1994](https://github.com/cprogrammer1994)，[0XE4](https://github.com/0XE4)，[hartzell](https://github.com/hartzell)，[zeeshanu](https://github.com/zeeshanu)，[flennic](https://github.com/flennic)，[bhusang](https://github.com/bhusang)，[tversteeg](https://github.com/tversteeg)，[gpetrousov](https://github.com/gpetrousov)，[crowchirp](https://github.com/crowchirp)和[Shark0der](https://github.com/shark0der)，他们还在[Reddit](https://www.reddit.com/r/hacking/comments/6p50is/crack_wpawpa2_wifi_routers_with_aircrackng_and/)和GitHub。如果您有兴趣听取WPA2的一些建议替代方案，请在[这](https://news.ycombinator.com/item?id=14840539)参考Hacker News的一些重要讨论。
