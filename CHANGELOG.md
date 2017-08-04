@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3
+
+- Add Chinese versions as README.zh.md and appendix.zh.md thanks to [neal1991](https://github.com/neal1991).
+
 ## 1.2
 
 - Add MacOS/OSX support via the [appendix](appendix.md), thanks [harshpatel991](https://github.com/harshpatel991)!
