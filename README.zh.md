@@ -14,7 +14,7 @@ __声明：这个软件/教程仅仅用于教学。不应该使用它从事任�
 这个教程假定你：
 
 - 可以流畅使用命令行
-- 使用一个基于debian的linux发行版本，最好是[Kali linux](https://www.kali.org/)（OSX用户参考[附录](appendix.zh.md)）
+- 使用一个基于debian的linux发行版本，最好是 [Kali linux](https://www.kali.org/)（OSX用户参考[附录](appendix.zh.md)）
 - 安装 [Aircrack-ng](http://aircrack-ng.org/)
   - `sudo apt-get install aircrack-ng`
 - 拥有一块支持[监测模式](https://en.wikipedia.org/wiki/Monitor_mode)的无线网卡（对于支持的设备列表，参考[这里](http://www.wirelesshack.org/best-kali-linux-compatible-usb-adapter-dongles-2016.html))
@@ -23,7 +23,7 @@ __声明：这个软件/教程仅仅用于教学。不应该使用它从事任�
 
 ### 监测模式 (Monitor Mode)
 
-让我们通过下面的命令可以列出支持监察模式的无线接口开始：
+让我们通过下面的命令可以列出支持监测模式的无线接口开始：
 
 ```bash
 airmon-ng
@@ -110,7 +110,7 @@ mv ./-01.cap hackme.cap
 cap2hccapx.bin hackme.cap hackme.hccapx
 ```
 
-接着，下载并并运行 `naive-hashcat`：
+接着，下载并运行 `naive-hashcat`：
 
 ```bash
 # 下载
@@ -247,7 +247,7 @@ HASH_FILE=hackme.hccapx POT_FILE=hackme.pot HASH_TYPE=2500 ./naive-hashcat.sh
 
 ## 附录
 
-非常欢迎对这篇教程添加回复，我已经添加了社区成员的建议和附加资料作为[附录](#appendix.zh.md)。它包括：
+非常欢迎对这篇教程进行回复，我已经添加了社区成员的建议和附加资料作为[附录](#appendix.zh.md)。它包括：
 
 - 在 MacOS/OSX 上捕获握手并且破解WPA密码
 - 利用 `wlandump-ng` 捕获从你周围每个网络捕获握手
@@ -258,6 +258,6 @@ HASH_FILE=hackme.hccapx POT_FILE=hackme.pot HASH_TYPE=2500 ./naive-hashcat.sh
 
 ## 致谢
 
-这里提供的大部分信息都是从 [Lewis Encarnacion的绝妙的教程](https://lewiscomputerhowto.blogspot.com/2014/06/how-to-hack-wpawpa2-wi-fi-with-kali.html) 收集的。 感谢在 Aircrack-ng 和 Hashcat 上工作的优秀作者和维护者。
+这里提供的大部分信息都是从 [Lewis Encarnacion 的绝妙的教程](https://lewiscomputerhowto.blogspot.com/2014/06/how-to-hack-wpawpa2-wi-fi-with-kali.html) 中收集的。 感谢在 Aircrack-ng 和 Hashcat 上工作的优秀作者和维护者。
 
 非常感谢 [neal1991](https://github.com/neal1991) 将本教程翻译成[中文](README.zh.md)。另外也感谢 [hiteshnayak305](https://github.com/hiteshnayak305)，[enilfodne](https://github.com/enilfodne)， [DrinkMoreCodeMore](https://www.reddit.com/user/DrinkMoreCodeMore)，[hivie7510](https://www.reddit.com/user/hivie7510)，[cprogrammer1994](https://github.com/cprogrammer1994)，[0XE4](https://github.com/0XE4)，[hartzell](https://github.com/hartzell)，[zeeshanu](https://github.com/zeeshanu)，[flennic](https://github.com/flennic)，[bhusang](https://github.com/bhusang)，[tversteeg](https://github.com/tversteeg)，[gpetrousov](https://github.com/gpetrousov)，[crowchirp](https://github.com/crowchirp) 和 [Shark0der](https://github.com/shark0der)，他们也在 [Reddit](https://www.reddit.com/r/hacking/comments/6p50is/crack_wpawpa2_wifi_routers_with_aircrackng_and/) 和 GitHub 上提供建议或帮助完善这篇文章。如果您有兴趣听取 WPA2 的一些建议替代方案，请参考 [Hacker News](https://news.ycombinator.com/item?id=14840539) 的一些重要讨论。

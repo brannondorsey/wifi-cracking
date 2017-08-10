@@ -16,12 +16,12 @@
 
 ### 测定目标网络信道
 
-打开无线诊断程序，单击**窗口** > **扫描**。 找到目标网络，注意其信道和宽度。
+打开无线诊断程序，单击**窗口** > **扫描**。 找到目标网络，记录下其信道和宽度。
 
 ### 抓取一个 4-way handshake 
 
-1. 打开无线诊断，点击**窗口** > **嗅探器**。选择你在上一步中找到的信道和宽度。
-2. 现在，你需要等待有设备连接到目标网络。如果你正在自己的网络上测试（你应该），将一个无线设备重新连接就可以抓取 handshake 。
+1. 在无线诊断程序打开的情况下，点击菜单栏中的**窗口** > **嗅探器**。选择你在上一步中找到的信道和宽度。
+2. 现在，你需要等待有设备连接到目标网络。如果你正在自己的网络上测试（使用者应当只在自己的网络上进行测试），将任意一个无线设备重新连接就可以抓取 handshake。
 3. 当你感觉已经成功抓取 handshake 时，点击停止。
 4. 根据你的操作系统版本，抓取的 `.wcap` 文件将被保存到桌面或`/var/tmp/`。
 5. 将抓取的文件上传到 https://hashcat.net/cap2hccapx/ 就可以将其转换为 `.hccapx` 文件。 如果你成功的抓到了 handshake ，站点将开始下载一个`.hccapx`文件。 否则将不会提示下载。
@@ -29,11 +29,11 @@
 ### 利用 `naive-hashcat` 破解密码
 
 ```bash
-# clone naive-hashcat
+# 克隆 naive-hashcat
 git clone https://github.com/brannondorsey/naive-hashcat
 cd naive-hashcat
 
-# 在 MacOS/OSX 上构建源代码
+# 在 MacOS/OSX 上从原代码构建程序
 ./build-hashcat-osx.sh
 
 # 下载 134MB rockyou字典文件
@@ -54,7 +54,7 @@ HASH_FILE=handshake.hccapx POT_FILE=cracked.pot HASH_TYPE=2500 ./naive-hashcat.s
 
 
 ```bash
-# clone hcxtools
+# 克隆 hcxtools
 git clone https://github.com/ZerBea/hcxtools
 cd hcxtools
 
