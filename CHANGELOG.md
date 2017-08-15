@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4
+
+- Updates to Chinese version by [tiiime](https://github.com/tiiime), [neal1991](https://github.com/neal1991), and [yizhiheng](https://github.com/yizhiheng). 
+
 ## 1.3
 
 - Add Chinese versions as README.zh.md and appendix.zh.md thanks to [neal1991](https://github.com/neal1991).
