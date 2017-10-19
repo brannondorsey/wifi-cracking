@@ -144,7 +144,7 @@ Thanks to [@hiteshnayak305](https://github.com/hiteshnayak305) for the introduct
 
 ## Protecting your identify with `macchanger`
 
-Whenever you are doing anything remotely nefarious with Wi-Fi, it is a good idea to spoof your the MAC address of your Wi-Fi device so that any network traffic that gets recorded can't be tied to serial assigned by your device manufacturer.
+Whenever you are doing anything remotely nefarious with Wi-Fi, it is a good idea to spoof your MAC address of your Wi-Fi device so that any network traffic that gets recorded can't be tied to serial assigned by your device manufacturer.
 
 This is trivial with `macchanger`:
 
