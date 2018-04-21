@@ -144,7 +144,7 @@ Aircrack-ng 可以用于在你的 CPU 上运行来进行非常基本的字典攻
 curl -L -o rockyou.txt https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt
 ```
 
-注意，如果网络密码不再这个单词文件话，你将不能破解密码。
+注意，如果网络密码不在这个单词文件话，你将不能破解密码。
 
 ```bash
 # -a2 指定 WPA2，-b 是 BSSID，-w 是字典文件
