@@ -1,6 +1,6 @@
 # Appendix
 
-After the initial release of this tutorial, several people from various corners of the internet reached out with comments and suggestions. In an effort two keep the original tutorial short and sweet, I've included information about their wonderful suggestions here, and added some of my own. Here you will find info on:
+After the initial release of this tutorial, several people from various corners of the internet reached out with comments and suggestions. In an effort to keep the original tutorial short and sweet, I've included information about their wonderful suggestions here, and added some of my own. Here you will find info on:
 
 - Wi-Fi cracking on MacOS/OSX
 - Capturing handshakes with `wlandump-ng`
