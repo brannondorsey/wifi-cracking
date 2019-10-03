@@ -37,6 +37,7 @@ airmon-ng start wlan0
 ```
 
 Run `iwconfig`. You should now see a new monitor mode interface listed (likely `mon0` or `wlan0mon`).
+Run 'airmon_ng check wlan0' to check if any other processes are running and use 'kill' command along with PID of the process to ensure nothing comes in your way.
 
 ### Find Your Target
 
