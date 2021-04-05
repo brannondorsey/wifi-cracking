@@ -37,6 +37,7 @@ airmon-ng start wlan0
 ```
 
 Run `iwconfig`. You should now see a new monitor mode interface listed (likely `mon0` or `wlan0mon`).
+Run 'airmon_ng check wlan0' to check if any other processes are running and use 'kill' command along with PID of the process to ensure nothing comes in your way.
 
 ### Find Your Target
 
@@ -87,7 +88,7 @@ airodump-ng -c 3 --bssid 9C:5C:8E:C9:AB:C0 -w . mon0
 
 Now we wait... Once you've captured a handshake, you should see something like `[ WPA handshake: bc:d3:c9:ef:d2:67` at the top right of the screen, just right of the current time. 
 
-If you are feeling impatient, and are comfortable using an active attack, you can force devices connected to the target network to reconnect, be sending malicious deauthentication packets at them. This often results in the capture of a 4-way handshake. See the [deauth attack section](#deauth-attack) below for info on this. 
+If you are feeling impatient, and are comfortable using an active attack, you can force devices connected to the target network to reconnect, by sending malicious deauthentication packets at them. This often results in the capture of a 4-way handshake. See the [deauth attack section](#deauth-attack) below for info on this. 
 
 Once you've captured a handshake, press `ctrl-c` to quit `airodump-ng`. You should see a `.cap` file wherever you told `airodump-ng` to save the capture (likely called `-01.cap`). We will use this capture file to crack the network password. I like to rename this file to reflect the network name we are trying to crack:
 
