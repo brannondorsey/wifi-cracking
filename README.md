@@ -18,8 +18,30 @@ This tutorial assumes that you:
 	- `sudo apt-get install aircrack-ng`
 - Have a wireless card that supports [monitor mode](https://en.wikipedia.org/wiki/Monitor_mode) (see [here](http://www.wirelesshack.org/best-kali-linux-compatible-usb-adapter-dongles-2016.html) for a list of supported devices)
 
-## Cracking a Wi-Fi Network
+## Wireless Adaptor Setup
+A popular wireless adaptor is [Alfa AWUS036ACH](https://www.alfa.com.tw/products/awus036ach?variant=36473965871176). After plugging in the device, check that OS has recognized it with:
+```bash
+lsusb
+```
 
+You will need to install the [drivers](https://github.com/aircrack-ng/rtl8812au) for this device to be able to see it with `airmon-ng` or `iwconfig`. Follow these steps:
+```bash 
+cd /tmp
+git clone https://github.com/aircrack-ng/rtl8812au.git
+cd rtl8812au
+sudo make -j 3
+sudo make install
+```
+
+You should now see 2 wireless adaptors from the `iwconfig` command. (one is the built-in wifi card, and one the Alfa).
+If the name for the Alfa card is not `wlan0` (in my case it was wlx00c0cab08e97) you can change it by:
+```bash
+ip link set <OLD_NAME> down
+ip link set <OLD_NAME> name wlan0
+ip link set wlan0 up
+```
+
+## Cracking a Wi-Fi Network
 ### Monitor Mode
 
 Begin by listing wireless interfaces that support monitor mode with:
